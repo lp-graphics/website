@@ -4,7 +4,7 @@ import React from 'react';
 import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, CheckCircle2, PlayCircle, Lock } from 'lucide-react';
+import { Sparkles, CheckCircle2, PlayCircle, Lock, BookOpen, Lightbulb, AlertCircle } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 
 interface StepProps {
@@ -83,18 +83,48 @@ const CourseStep = ({ step }: { step: StepProps }) => {
             </div>
           ) : (
             <>
-              <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
-                {step.description}
-              </p>
-              
-              <div className="mb-8">
-                <h4 className="text-sm font-bold uppercase tracking-wider mb-3">What you'll master:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {step.skills.map(skill => (
-                    <Badge key={skill} variant="secondary" className="rounded-lg px-3 py-1">
-                      {skill}
-                    </Badge>
-                  ))}
+              <div className="prose prose-sm max-w-none mb-8">
+                <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
+                  {step.description}
+                </p>
+
+                {/* Documentation Section */}
+                <div className="space-y-6 mb-8">
+                  <div className="bg-muted/30 rounded-xl p-5 border">
+                    <h4 className="flex items-center gap-2 font-bold text-primary mb-3">
+                      <BookOpen size={18} />
+                      Lesson Documentation
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Core Concepts</h5>
+                        <ul className="space-y-2">
+                          {step.skills.map((skill, i) => (
+                            <li key={i} className="text-sm flex items-start gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                              {skill}: Essential for professional {step.title.toLowerCase()} workflows.
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="flex gap-3">
+                          <Lightbulb className="text-amber-500 shrink-0" size={18} />
+                          <div>
+                            <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Pro Tip</h5>
+                            <p className="text-sm text-muted-foreground">Always use non-destructive methods. Keyboard shortcuts are your best friend for speed.</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <AlertCircle className="text-blue-500 shrink-0" size={18} />
+                          <div>
+                            <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Common Pitfall</h5>
+                            <p className="text-sm text-muted-foreground">Avoid over-processing. Subtle changes often yield the most professional results.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
