@@ -4,8 +4,9 @@ import React from 'react';
 import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, CheckCircle2, PlayCircle, Lock, BookOpen, Lightbulb, AlertCircle } from 'lucide-react';
+import { Sparkles, PlayCircle, Lock } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
+import StepDocumentation from './StepDocumentation';
 
 interface StepProps {
   number: number;
@@ -14,6 +15,7 @@ interface StepProps {
   skills: string[];
   duration: string;
   isLocked?: boolean;
+  content: any; // Detailed documentation content
 }
 
 const CourseStep = ({ step }: { step: StepProps }) => {
@@ -42,116 +44,89 @@ const CourseStep = ({ step }: { step: StepProps }) => {
   return (
     <AccordionItem 
       value={`step-${step.number}`} 
-      className="border-none mb-4 bg-white rounded-2xl overflow-hidden shadow-sm"
+      className="border-none mb-6 bg-white rounded-[32px] overflow-hidden shadow-sm border hover:shadow-md transition-all"
     >
       <AccordionTrigger 
-        className="px-6 py-6 hover:no-underline group"
+        className="px-8 py-8 hover:no-underline group"
         onClick={() => !step.isLocked && generateExercise()}
       >
-        <div className="flex items-center gap-6 text-left w-full">
-          <div className="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary font-bold text-xl group-hover:bg-primary group-hover:text-white transition-colors">
-            {step.isLocked ? <Lock size={20} /> : step.number}
+        <div className="flex items-center gap-8 text-left w-full">
+          <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center text-primary font-bold text-2xl group-hover:bg-primary group-hover:text-white transition-all duration-500">
+            {step.isLocked ? <Lock size={24} /> : step.number}
           </div>
           <div className="flex-grow">
-            <div className="flex items-center gap-2">
-              <h3 className="text-xl font-bold">{step.title}</h3>
-              {step.isLocked && <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-none">PRO</Badge>}
+            <div className="flex items-center gap-3 mb-1">
+              <h3 className="text-2xl font-bold tracking-tight">{step.title}</h3>
+              {step.isLocked && <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-none px-3 py-1">PRO</Badge>}
             </div>
-            <div className="flex gap-4 mt-1">
-              <span className="text-xs text-muted-foreground flex items-center gap-1">
-                <PlayCircle size={12} /> {step.duration}
+            <div className="flex gap-6">
+              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                <PlayCircle size={16} className="text-primary" /> {step.duration}
               </span>
-              <span className="text-xs text-muted-foreground flex items-center gap-1">
-                <CheckCircle2 size={12} /> {step.skills.length} Key Skills
+              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                <Sparkles size={16} className="text-primary" /> AI Practice Lab Included
               </span>
             </div>
           </div>
         </div>
       </AccordionTrigger>
-      <AccordionContent className="px-6 pb-8 pt-2">
-        <div className="pl-[72px]">
+      <AccordionContent className="px-8 pb-12 pt-4">
+        <div className="pl-24">
           {step.isLocked ? (
-            <div className="bg-muted/50 rounded-2xl p-8 text-center border-2 border-dashed">
-              <Lock className="mx-auto mb-4 text-muted-foreground" size={32} />
-              <h4 className="text-xl font-bold mb-2">This lesson is locked</h4>
-              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Steps 6-10 contain advanced professional techniques. Unlock the full course to access this content and the AI Practice Lab.
+            <div className="bg-muted/30 rounded-[40px] p-12 text-center border-2 border-dashed">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <Lock className="text-muted-foreground" size={32} />
+              </div>
+              <h4 className="text-2xl font-bold mb-3">Unlock Professional Mastery</h4>
+              <p className="text-muted-foreground mb-8 max-w-lg mx-auto text-lg">
+                This advanced lesson covers industry-standard techniques used by top studios. Upgrade to Pro to access the full 10-step roadmap and AI Practice Lab.
               </p>
-              <Button className="rounded-xl px-8 h-12 bg-primary hover:bg-primary/90">
-                Unlock for $10
+              <Button className="rounded-full px-12 h-14 text-lg bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
+                Unlock Full Course for $10
               </Button>
             </div>
           ) : (
-            <>
-              <div className="prose prose-sm max-w-none mb-8">
-                <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
-                  {step.description}
-                </p>
+            <div className="space-y-12">
+              <StepDocumentation 
+                title={step.title} 
+                skills={step.skills} 
+                content={step.content} 
+              />
 
-                {/* Documentation Section */}
-                <div className="space-y-6 mb-8">
-                  <div className="bg-muted/30 rounded-xl p-5 border">
-                    <h4 className="flex items-center gap-2 font-bold text-primary mb-3">
-                      <BookOpen size={18} />
-                      Lesson Documentation
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Core Concepts</h5>
-                        <ul className="space-y-2">
-                          {step.skills.map((skill, i) => (
-                            <li key={i} className="text-sm flex items-start gap-2">
-                              <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                              {skill}: Essential for professional {step.title.toLowerCase()} workflows.
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="space-y-4">
-                        <div className="flex gap-3">
-                          <Lightbulb className="text-amber-500 shrink-0" size={18} />
-                          <div>
-                            <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Pro Tip</h5>
-                            <p className="text-sm text-muted-foreground">Always use non-destructive methods. Keyboard shortcuts are your best friend for speed.</p>
-                          </div>
-                        </div>
-                        <div className="flex gap-3">
-                          <AlertCircle className="text-blue-500 shrink-0" size={18} />
-                          <div>
-                            <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Common Pitfall</h5>
-                            <p className="text-sm text-muted-foreground">Avoid over-processing. Subtle changes often yield the most professional results.</p>
-                          </div>
-                        </div>
-                      </div>
+              {/* AI Lab Section */}
+              <div className="bg-primary rounded-[40px] p-10 text-primary-foreground relative overflow-hidden">
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 font-bold text-xl mb-6">
+                    <Sparkles size={24} />
+                    AI Practice Lab
+                  </div>
+                  
+                  {isGenerating ? (
+                    <div className="flex items-center gap-4 text-primary-foreground/70 animate-pulse">
+                      <div className="w-6 h-6 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                      <span className="text-lg">AI is analyzing lesson content to craft your challenge...</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10">
-                <div className="flex items-center gap-2 text-primary font-bold mb-4">
-                  <Sparkles size={18} />
-                  AI Practice Lab
-                </div>
-                
-                {isGenerating ? (
-                  <div className="flex items-center gap-3 text-muted-foreground animate-pulse">
-                    <div className="w-4 h-4 bg-primary/20 rounded-full animate-bounce" />
-                    <span>AI is crafting your custom exercise...</span>
-                  </div>
-                ) : exercise ? (
-                  <div className="animate-in fade-in slide-in-from-top-2 duration-500">
-                    <p className="text-primary/80 font-medium italic">
-                      "{exercise}"
+                  ) : exercise ? (
+                    <div className="animate-in fade-in slide-in-from-top-4 duration-700">
+                      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+                        <p className="text-xl font-medium leading-relaxed italic">
+                          "{exercise}"
+                        </p>
+                      </div>
+                      <p className="mt-6 text-primary-foreground/60 text-sm">
+                        Tip: Upload your result to the community gallery for feedback!
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="text-primary-foreground/70 text-lg">
+                      Your custom practice prompt will appear here automatically.
                     </p>
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground text-sm">
-                    Expand this section to automatically generate a custom practice prompt.
-                  </p>
-                )}
+                  )}
+                </div>
+                {/* Decorative background */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl" />
               </div>
-            </>
+            </div>
           )}
         </div>
       </AccordionContent>
