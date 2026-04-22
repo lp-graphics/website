@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Palette, Star, BookOpen, Menu, X } from 'lucide-react';
+import { Palette, Star, BookOpen, Menu, X, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
@@ -13,6 +13,7 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Portfolio', path: '/', icon: Palette },
+    { name: 'Services', path: '/services', icon: Briefcase },
     { name: 'Reviews', path: '/reviews', icon: Star },
     { name: 'PS Course', path: '/course', icon: BookOpen },
   ];
