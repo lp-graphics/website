@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
 import { Button } from '@/components/ui/button';
 import { ArrowDown, Sparkles } from 'lucide-react';
+import { showSuccess } from '@/utils/toast';
 
 const PROJECTS = [
   {
@@ -65,11 +66,20 @@ const PROJECTS = [
 ];
 
 const Index = () => {
+  const portfolioRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollToPortfolio = () => {
+    portfolioRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleContact = () => {
+    showSuccess("Opening contact form...");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-sm font-medium mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -84,17 +94,15 @@ const Index = () => {
             A boutique studio specializing in branding, digital experiences, and high-end visual content that leaves a lasting impression.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
-            <Button size="lg" className="rounded-full px-8 h-14 text-lg">View Our Work</Button>
-            <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg">Our Services</Button>
+            <Button size="lg" className="rounded-full px-8 h-14 text-lg" onClick={scrollToPortfolio}>View Our Work</Button>
+            <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg" onClick={handleContact}>Our Services</Button>
           </div>
         </div>
         
-        {/* Background Decoration */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10" />
       </section>
 
-      {/* Portfolio Grid */}
-      <section className="py-24 bg-muted/20">
+      <section ref={portfolioRef} className="py-24 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div>
@@ -102,10 +110,9 @@ const Index = () => {
               <p className="text-muted-foreground text-lg">A curated collection of our most impactful projects.</p>
             </div>
             <div className="flex gap-4">
-              <Button variant="ghost" className="rounded-full">All</Button>
-              <Button variant="ghost" className="rounded-full">Branding</Button>
-              <Button variant="ghost" className="rounded-full">Digital</Button>
-              <Button variant="ghost" className="rounded-full">Print</Button>
+              <Button variant="ghost" className="rounded-full" onClick={() => showSuccess("Filtering by All")}>All</Button>
+              <Button variant="ghost" className="rounded-full" onClick={() => showSuccess("Filtering by Branding")}>Branding</Button>
+              <Button variant="ghost" className="rounded-full" onClick={() => showSuccess("Filtering by Digital")}>Digital</Button>
             </div>
           </div>
 
@@ -116,7 +123,7 @@ const Index = () => {
           </div>
 
           <div className="mt-20 text-center">
-            <Button variant="outline" size="lg" className="rounded-full px-12 h-14">
+            <Button variant="outline" size="lg" className="rounded-full px-12 h-14" onClick={() => showSuccess("Loading more projects...")}>
               Load More Projects
               <ArrowDown className="ml-2" size={18} />
             </Button>

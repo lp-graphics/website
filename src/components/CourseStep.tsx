@@ -4,7 +4,7 @@ import React from 'react';
 import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, CheckCircle2, PlayCircle } from 'lucide-react';
+import { Sparkles, CheckCircle2, PlayCircle, Lock } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 
 interface StepProps {
@@ -13,15 +13,18 @@ interface StepProps {
   description: string;
   skills: string[];
   duration: string;
+  isLocked?: boolean;
 }
 
 const CourseStep = ({ step }: { step: StepProps }) => {
   const [isGenerating, setIsGenerating] = React.useState(false);
   const [exercise, setExercise] = React.useState<string | null>(null);
+  const [hasGenerated, setHasGenerated] = React.useState(false);
 
   const generateExercise = () => {
+    if (step.isLocked || hasGenerated) return;
+    
     setIsGenerating(true);
-    // Simulate AI call
     setTimeout(() => {
       const exercises = [
         "Create a surreal landscape using at least 3 different source images and matching the lighting.",
@@ -31,19 +34,29 @@ const CourseStep = ({ step }: { step: StepProps }) => {
       ];
       setExercise(exercises[Math.floor(Math.random() * exercises.length)]);
       setIsGenerating(false);
-      showSuccess("AI Exercise Generated!");
-    }, 1500);
+      setHasGenerated(true);
+      showSuccess(`AI Exercise for Step ${step.number} Ready!`);
+    }, 1000);
   };
 
   return (
-    <AccordionItem value={`step-${step.number}`} className="border-none mb-4 bg-white rounded-2xl overflow-hidden shadow-sm">
-      <AccordionTrigger className="px-6 py-6 hover:no-underline group">
-        <div className="flex items-center gap-6 text-left">
+    <AccordionItem 
+      value={`step-${step.number}`} 
+      className="border-none mb-4 bg-white rounded-2xl overflow-hidden shadow-sm"
+    >
+      <AccordionTrigger 
+        className="px-6 py-6 hover:no-underline group"
+        onClick={() => !step.isLocked && generateExercise()}
+      >
+        <div className="flex items-center gap-6 text-left w-full">
           <div className="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary font-bold text-xl group-hover:bg-primary group-hover:text-white transition-colors">
-            {step.number}
+            {step.isLocked ? <Lock size={20} /> : step.number}
           </div>
-          <div>
-            <h3 className="text-xl font-bold">{step.title}</h3>
+          <div className="flex-grow">
+            <div className="flex items-center gap-2">
+              <h3 className="text-xl font-bold">{step.title}</h3>
+              {step.isLocked && <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-none">PRO</Badge>}
+            </div>
             <div className="flex gap-4 mt-1">
               <span className="text-xs text-muted-foreground flex items-center gap-1">
                 <PlayCircle size={12} /> {step.duration}
@@ -57,49 +70,59 @@ const CourseStep = ({ step }: { step: StepProps }) => {
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-8 pt-2">
         <div className="pl-[72px]">
-          <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
-            {step.description}
-          </p>
-          
-          <div className="mb-8">
-            <h4 className="text-sm font-bold uppercase tracking-wider mb-3">What you'll master:</h4>
-            <div className="flex flex-wrap gap-2">
-              {step.skills.map(skill => (
-                <Badge key={skill} variant="secondary" className="rounded-lg px-3 py-1">
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2 text-primary font-bold">
-                <Sparkles size={18} />
-                AI Practice Lab
-              </div>
-              <Button 
-                onClick={generateExercise} 
-                disabled={isGenerating}
-                variant="outline"
-                className="rounded-xl bg-white"
-              >
-                {isGenerating ? "Generating..." : "Generate Exercise"}
+          {step.isLocked ? (
+            <div className="bg-muted/50 rounded-2xl p-8 text-center border-2 border-dashed">
+              <Lock className="mx-auto mb-4 text-muted-foreground" size={32} />
+              <h4 className="text-xl font-bold mb-2">This lesson is locked</h4>
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                Steps 6-10 contain advanced professional techniques. Unlock the full course to access this content and the AI Practice Lab.
+              </p>
+              <Button className="rounded-xl px-8 h-12 bg-primary hover:bg-primary/90">
+                Unlock for $10
               </Button>
             </div>
-            
-            {exercise ? (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-500">
-                <p className="text-primary/80 font-medium italic">
-                  "{exercise}"
-                </p>
-              </div>
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                Click the button to get a custom, AI-generated practice prompt tailored to this lesson's skills.
+          ) : (
+            <>
+              <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
+                {step.description}
               </p>
-            )}
-          </div>
+              
+              <div className="mb-8">
+                <h4 className="text-sm font-bold uppercase tracking-wider mb-3">What you'll master:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {step.skills.map(skill => (
+                    <Badge key={skill} variant="secondary" className="rounded-lg px-3 py-1">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                <div className="flex items-center gap-2 text-primary font-bold mb-4">
+                  <Sparkles size={18} />
+                  AI Practice Lab
+                </div>
+                
+                {isGenerating ? (
+                  <div className="flex items-center gap-3 text-muted-foreground animate-pulse">
+                    <div className="w-4 h-4 bg-primary/20 rounded-full animate-bounce" />
+                    <span>AI is crafting your custom exercise...</span>
+                  </div>
+                ) : exercise ? (
+                  <div className="animate-in fade-in slide-in-from-top-2 duration-500">
+                    <p className="text-primary/80 font-medium italic">
+                      "{exercise}"
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground text-sm">
+                    Expand this section to automatically generate a custom practice prompt.
+                  </p>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </AccordionContent>
     </AccordionItem>

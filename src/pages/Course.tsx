@@ -7,7 +7,8 @@ import CourseStep from '@/components/CourseStep';
 import { Accordion } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { Play, BookOpen, Award, Users } from 'lucide-react';
+import { Play, BookOpen, Award, Users, Sparkles } from 'lucide-react';
+import { showSuccess } from '@/utils/toast';
 
 const STEPS = [
   {
@@ -50,58 +51,66 @@ const STEPS = [
     title: "Advanced Compositing",
     description: "Bring multiple images together seamlessly. Learn about perspective matching, lighting consistency, and atmospheric effects for realistic composites.",
     skills: ["Perspective Warp", "Lighting Match", "Shadow Creation", "Atmospheric Depth"],
-    duration: "120 mins"
+    duration: "120 mins",
+    isLocked: true
   },
   {
     number: 7,
     title: "Smart Objects & Filters",
     description: "Work smarter, not harder. Master Smart Objects for non-destructive filtering and learn how to use the Filter Gallery and Camera Raw Filter effectively.",
     skills: ["Smart Objects", "Camera Raw Filter", "Blur Gallery", "Liquify"],
-    duration: "45 mins"
+    duration: "45 mins",
+    isLocked: true
   },
   {
     number: 8,
     title: "Typography & Vector Art",
     description: "Integrate text and vector shapes into your designs. Learn about kerning, tracking, and using the Pen Tool for custom vector paths.",
     skills: ["Type Tool", "Character Panel", "Vector Shapes", "Path Operations"],
-    duration: "60 mins"
+    duration: "60 mins",
+    isLocked: true
   },
   {
     number: 9,
     title: "Actions & Automation",
     description: "Speed up your workflow. Learn how to record custom actions, use batch processing, and utilize scripts to handle repetitive tasks automatically.",
     skills: ["Recording Actions", "Batch Processing", "Image Processor", "Droplets"],
-    duration: "45 mins"
+    duration: "45 mins",
+    isLocked: true
   },
   {
     number: 10,
     title: "Professional Project Walkthrough",
     description: "Put it all together. Follow a full start-to-finish workflow for a professional commercial project, from brief to final export.",
     skills: ["Workflow Management", "Final Export Settings", "Portfolio Presentation", "Client Delivery"],
-    duration: "180 mins"
+    duration: "180 mins",
+    isLocked: true
   }
 ];
 
 const Course = () => {
+  const handleEnroll = () => {
+    showSuccess("Redirecting to secure checkout...");
+  };
+
   return (
     <div className="min-h-screen bg-muted/10">
       <Navbar />
       
-      {/* Course Header */}
       <section className="pt-20 pb-16 bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-sm font-medium mb-6">
-                <BookOpen size={16} />
-                Masterclass Series
+                <Sparkles size={16} />
+                Free Starter + Pro Mastery
               </div>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6">
                 Photoshop Mastery: <br />
                 <span className="text-primary">Zero to Pro.</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-                A comprehensive 10-step roadmap designed to take you from opening the app for the first time to delivering professional-grade visual content.
+                Start for free with our 5-step foundation course. Upgrade to Pro for just $10 to unlock advanced techniques and the AI Practice Lab for all lessons.
               </p>
               
               <div className="flex flex-wrap gap-8 mb-10">
@@ -123,20 +132,15 @@ const Course = () => {
                     <div className="text-xs text-muted-foreground">Enrolled</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center text-primary">
-                    <Award size={18} />
-                  </div>
-                  <div>
-                    <div className="font-bold">Certificate</div>
-                    <div className="text-xs text-muted-foreground">Upon Completion</div>
-                  </div>
-                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="rounded-xl px-8 h-14 text-lg">Enroll Now — $99</Button>
-                <Button size="lg" variant="outline" className="rounded-xl px-8 h-14 text-lg">Watch Trailer</Button>
+                <Button size="lg" className="rounded-xl px-8 h-14 text-lg" onClick={handleEnroll}>
+                  Unlock Pro — $10
+                </Button>
+                <Button size="lg" variant="outline" className="rounded-xl px-8 h-14 text-lg">
+                  Start Free Lessons
+                </Button>
               </div>
             </div>
 
@@ -147,32 +151,25 @@ const Course = () => {
                   alt="Course Preview"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-black/20 flex items-center justify-center group cursor-pointer">
-                  <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center text-primary shadow-xl group-hover:scale-110 transition-transform">
-                    <Play size={32} className="ml-1" />
-                  </div>
-                </div>
               </div>
-              {/* Floating Progress Card */}
               <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl border w-64 hidden md:block">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="font-bold">Your Progress</span>
-                  <span className="text-primary font-bold">0%</span>
+                  <span className="font-bold">Free Progress</span>
+                  <span className="text-primary font-bold">0/5</span>
                 </div>
                 <Progress value={0} className="h-2 mb-4" />
-                <p className="text-xs text-muted-foreground">Start Step 1 to begin your journey.</p>
+                <p className="text-xs text-muted-foreground">Complete the first 5 steps for free!</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Course Roadmap */}
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">The 10-Step Roadmap</h2>
-            <p className="text-muted-foreground text-lg">Each step builds on the last, ensuring a solid foundation and advanced mastery.</p>
+            <p className="text-muted-foreground text-lg">Steps 1-5 are free. Steps 6-10 require a Pro upgrade.</p>
           </div>
 
           <Accordion type="single" collapsible className="w-full">
@@ -182,12 +179,12 @@ const Course = () => {
           </Accordion>
 
           <div className="mt-20 text-center bg-white p-12 rounded-[40px] shadow-sm border">
-            <h3 className="text-3xl font-bold mb-4">Ready to become a pro?</h3>
+            <h3 className="text-3xl font-bold mb-4">Ready to go Pro?</h3>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Get lifetime access to all 10 steps, project files, and our private community of designers.
+              Get lifetime access to all 10 steps, advanced project files, and the AI Practice Lab for just $10.
             </p>
-            <Button size="lg" className="rounded-full px-12 h-16 text-xl shadow-lg shadow-primary/20">
-              Get Full Access Now
+            <Button size="lg" className="rounded-full px-12 h-16 text-xl shadow-lg shadow-primary/20" onClick={handleEnroll}>
+              Unlock Full Access — $10
             </Button>
           </div>
         </div>
