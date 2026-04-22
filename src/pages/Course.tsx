@@ -18,27 +18,36 @@ const STEPS = [
     skills: ["Workspace Customization", "Selection Tools", "Zoom & Pan", "Basic Brushes"],
     duration: "45 mins",
     content: {
-      overview: "The Photoshop interface can be overwhelming for beginners. This lesson breaks down the 'cockpit' of the world's most powerful image editor, showing you how to strip away the noise and focus on the tools that actually matter for professional work.",
+      overview: "Setting up your environment is the first step to professional mastery. Photoshop offers near-infinite customizability, but most designers clutter their screen with unused panels. This lesson cuts through the noise to build a high-performance 'cockpit'.",
       detailedGuide: [
-        "We start by exploring the Toolbar, the vertical strip on the left. You'll learn the difference between the Move tool and the Artboard tool, and why the 'Auto-Select' feature is often a designer's worst enemy.",
-        "Next, we dive into Panels. Photoshop is modular; we'll show you how to dock, undock, and save custom workspaces for different tasks like 'Retouching' or 'Digital Painting'.",
-        "Finally, we cover the Options Bar. Every tool has a secret life at the top of your screen. Understanding how to change brush hardness, flow, and opacity here is the first step toward mastery."
+        "THE TOOLBAR: Located on the left, this is your primary arsenal. We distinguish between the Move Tool (V) and the Artboard Tool. Crucially, we disable 'Auto-Select' in the Options Bar—a common beginner trap that leads to accidental layer selection in complex files.",
+        "ESSENTIAL PANELS: We configure the 'Graphic and Web' workspace. The Layers Panel is your heart; the Properties Panel is context-sensitive, changing its controls based on your selection; and the History Panel allows for non-destructive backtracking.",
+        "RESOLUTION & COLOR: For digital work, we set documents to 72 PPI (Pixels Per Inch) and RGB Color Mode. For print, we shift to 300 PPI and CMYK. Working in the wrong mode can lead to muddy colors or pixelated prints.",
+        "THE OPTIONS BAR: Every tool has a 'secret life' at the top of the screen. Here, you control Brush Hardness, Flow, and Opacity. Understanding the difference between Opacity (overall transparency) and Flow (speed of paint buildup) is vital for digital painting."
+      ],
+      shortcuts: [
+        { action: "Zoom In", mac: "⌘ +", win: "Ctrl +" },
+        { action: "Zoom Out", mac: "⌘ -", win: "Ctrl -" },
+        { action: "Fit to Screen", mac: "⌘ 0", win: "Ctrl 0" },
+        { action: "Hand Tool", mac: "Space", win: "Space" },
+        { action: "Undo", mac: "⌘ Z", win: "Ctrl Z" }
       ],
       proTips: [
-        "Press 'Tab' to hide all panels and focus entirely on your canvas.",
-        "Use 'F' to cycle through screen modes for a distraction-free experience.",
-        "Hold 'Spacebar' to temporarily switch to the Hand tool for quick navigation."
+        "Press 'Tab' to hide all panels and focus entirely on your canvas for final reviews.",
+        "Use 'F' to cycle through screen modes (Standard, Full Screen with Menu, Full Screen).",
+        "Save your custom workspace under Window → Workspace → New Workspace to prevent panel loss."
       ],
       commonMistakes: [
-        "Keeping too many panels open, which eats up valuable screen real estate.",
-        "Not saving your custom workspace, leading to frustration when panels disappear.",
-        "Ignoring the 'Search' feature (Cmd+F) when you can't find a specific filter."
+        "Working in CMYK for web projects, which limits your color gamut and filter options.",
+        "Keeping the 'Navigator' panel open—it's a waste of space if you master the Spacebar + Scroll zoom.",
+        "Not naming layers from the start. 'Layer 1' becomes a nightmare in a 100-layer file."
       ],
       workflow: [
-        "Reset to 'Essentials' workspace",
-        "Customize the Toolbar to hide unused tools",
-        "Open the 'Layers' and 'Properties' panels",
-        "Save as 'My Pro Workspace'"
+        "Reset to 'Essentials' workspace via Window menu",
+        "Open Layers, Properties, and Character panels",
+        "Disable 'Auto-Select' on the Move Tool",
+        "Set default resolution to 72 PPI for web",
+        "Save as 'Pro Studio' workspace"
       ]
     }
   },
@@ -49,27 +58,35 @@ const STEPS = [
     skills: ["Layer Management", "Blending Modes", "Opacity vs Fill", "Layer Groups"],
     duration: "60 mins",
     content: {
-      overview: "If you aren't using layers correctly, you aren't using Photoshop. This lesson teaches you the 'Stacking' philosophy that allows for infinite revisions without ever destroying your original pixels.",
+      overview: "If you aren't using layers correctly, you aren't using Photoshop. This lesson teaches the 'Stacking' philosophy that allows for infinite revisions without ever destroying your original pixels.",
       detailedGuide: [
-        "We'll explore the different types of layers: Pixel layers, Adjustment layers, Type layers, and Shape layers. Each has a specific role in your composition.",
-        "Blending Modes are where the magic happens. We'll demystify the 'Multiply', 'Screen', and 'Overlay' modes, showing you how they interact with the layers beneath them to create lighting and texture effects.",
-        "Organization is key. You'll learn the 'Group and Color' method used in high-end studios to keep files with 500+ layers manageable and hand-off ready."
+        "LAYER TYPES: We break down the four pillars: Pixel Layers (raster data), Adjustment Layers (non-destructive color/tone), Type Layers (vector text), and Shape Layers (vector geometry). Mixing these correctly is the key to a flexible file.",
+        "BLENDING MODES: These are mathematical algorithms that determine how pixels interact. We focus on the 'Big Three': Multiply (darkens, great for shadows), Screen (lightens, perfect for glows), and Overlay (increases contrast, ideal for textures).",
+        "OPACITY VS FILL: A common point of confusion. Opacity affects the entire layer including effects (like Drop Shadow). Fill affects only the pixels, leaving the layer styles at 100% visibility. This is essential for advanced UI design.",
+        "ORGANIZATION: In a professional studio, files are handed off between designers. We implement a strict naming and color-coding convention. Red for 'Background', Blue for 'Subject', and Green for 'Post-Processing' groups."
+      ],
+      shortcuts: [
+        { action: "New Layer", mac: "⌘ ⇧ N", win: "Ctrl Shift N" },
+        { action: "Group Layers", mac: "⌘ G", win: "Ctrl G" },
+        { action: "Merge Layers", mac: "⌘ E", win: "Ctrl E" },
+        { action: "Select All Layers", mac: "⌘ ⌥ A", win: "Ctrl Alt A" }
       ],
       proTips: [
-        "Use 'Alt + Click' on the eye icon to isolate a single layer.",
-        "The difference between Opacity and Fill is crucial for layers with styles like 'Drop Shadow'.",
-        "Always name your layers. 'Layer 57 copy 2' is a recipe for disaster."
+        "Alt-Click the eye icon to 'Solo' a layer, hiding everything else instantly.",
+        "Use 'Lock Transparent Pixels' to paint only on existing shapes without bleeding over edges.",
+        "Right-click the eye icon to color-code your groups for instant visual navigation."
       ],
       commonMistakes: [
-        "Merging layers too early, making it impossible to go back and edit.",
-        "Not using groups, leading to a 'wall of layers' that is impossible to navigate.",
-        "Confusing 'Background' layers with standard pixel layers."
+        "Merging layers too early. Once merged, you lose the ability to edit individual elements.",
+        "Using 'Opacity' when you should be using 'Fill' on layers with complex styles.",
+        "Not using 'Adjustment Layers' and instead applying destructive changes via Image → Adjustments."
       ],
       workflow: [
-        "Create a new layer for every major change",
-        "Group related elements (e.g., 'Background', 'Subject')",
-        "Apply a Blending Mode to add texture",
-        "Color-code groups for quick identification"
+        "Import base assets as Smart Objects",
+        "Create a 'Base' group for original images",
+        "Apply non-destructive Adjustment Layers",
+        "Group and name every element logically",
+        "Color-code groups for hand-off"
       ]
     }
   },
@@ -82,25 +99,34 @@ const STEPS = [
     content: {
       overview: "Masking is the 'Eraser' tool's professional older brother. It allows you to hide parts of a layer without actually deleting them, giving you the freedom to change your mind later.",
       detailedGuide: [
-        "We'll master the 'Black Hides, White Reveals' mantra of layer masks. You'll learn how to use soft brushes to create seamless transitions between images.",
-        "Clipping masks are a game-changer for UI design and typography. We'll show you how to 'clip' a photo into a piece of text or a specific shape.",
-        "Advanced selections: We'll tackle the hardest subjects—hair and fur—using the 'Select and Mask' workspace and the 'Refine Edge' brush."
+        "LAYER MASKS: We master the 'Black Hides, White Reveals' mantra. Using a soft brush on a mask allows for seamless blending between two images that would be impossible with the destructive Eraser tool.",
+        "CLIPPING MASKS: This is the secret to modern UI and typography. We 'clip' a photo into a piece of text or a specific shape. The photo only appears where the layer below it has pixels. It's the cleanest way to handle complex layouts.",
+        "ADVANCED SELECTIONS: We tackle the hardest subjects—hair and fur. We use the 'Select and Mask' workspace, utilizing the 'Refine Edge' brush to intelligently separate fine details from complex backgrounds.",
+        "THE PEN TOOL: While intimidating, the Pen Tool (P) is the only way to get surgical, vector-perfect selections. We learn the 'Rubber Band' method to preview paths before clicking, ensuring smooth curves every time."
+      ],
+      shortcuts: [
+        { action: "Default Colors", mac: "D", win: "D" },
+        { action: "Switch Colors", mac: "X", win: "X" },
+        { action: "Brush Tool", mac: "B", win: "B" },
+        { action: "Pen Tool", mac: "P", win: "P" },
+        { action: "Add Mask", mac: "Click Icon", win: "Click Icon" }
       ],
       proTips: [
-        "Shift-click a mask to temporarily disable it.",
-        "Alt-click a mask to view it in full-screen grayscale for precise cleaning.",
-        "Use the 'Lasso' tool for quick masks and the 'Pen' tool for surgical precision."
+        "Shift-Click a mask thumbnail to temporarily disable it and see the original image.",
+        "Alt-Click a mask to view it in full-screen grayscale—essential for finding 'stray' pixels.",
+        "Use the 'Lasso' tool for quick, rough masks, then refine with a soft brush."
       ],
       commonMistakes: [
-        "Using the Eraser tool instead of a mask (the #1 beginner mistake).",
-        "Masking with a brush that is too hard, creating unnatural edges.",
-        "Forgetting to select the mask thumbnail before painting, accidentally painting on the image."
+        "Using the Eraser tool. It is the #1 sign of an amateur workflow.",
+        "Masking with a brush that is too hard, creating 'cut-out' looks that don't blend.",
+        "Forgetting to select the mask thumbnail before painting, accidentally painting black on your photo."
       ],
       workflow: [
-        "Make a rough selection with the Quick Selection tool",
-        "Click the 'Add Layer Mask' icon",
-        "Enter 'Select and Mask' to refine edges",
-        "Use a soft black brush to clean up the mask"
+        "Create a rough selection with the Lasso tool",
+        "Apply a Layer Mask",
+        "Enter 'Select and Mask' for edge refinement",
+        "Use a soft black brush at 20% flow to blend edges",
+        "Apply a Clipping Mask for text effects"
       ]
     }
   },
@@ -113,25 +139,33 @@ const STEPS = [
     content: {
       overview: "Professional retouching isn't about making people look like plastic; it's about removing distractions while preserving natural texture. This lesson covers the 'Invisible Art' of high-end retouching.",
       detailedGuide: [
-        "We'll start with the 'Spot Healing Brush' for quick fixes, then move to the 'Healing Brush' for more control over texture and color matching.",
-        "The Clone Stamp is your power tool. You'll learn how to use it on a separate layer with 'Sample All Layers' enabled to keep your work non-destructive.",
-        "Content-Aware Fill: We'll show you how to remove entire people or objects from a scene and have Photoshop intelligently 'guess' what was behind them."
+        "HEALING VS CLONING: The Spot Healing Brush is for quick fixes. The Healing Brush (J) is for precision, as it matches the texture of the source to the lighting of the destination. The Clone Stamp (S) is for total pixel replacement.",
+        "CONTENT-AWARE FILL: Photoshop's AI engine. We learn how to remove entire people or objects from a scene. We use the 'Sampling Area' to tell Photoshop exactly which parts of the image to use as a reference for the 'guess'.",
+        "FREQUENCY SEPARATION: The industry standard for skin. We split the image into two layers: 'Low Frequency' (colors and tones) and 'High Frequency' (texture and pores). This allows us to smooth skin tones without losing the natural skin texture.",
+        "NON-DESTRUCTIVE RETOUCHING: We never retouch on the original layer. We create a new blank layer and set our tools to 'Sample All Layers'. This keeps the original photo pristine and allows us to toggle our work on and off."
+      ],
+      shortcuts: [
+        { action: "Healing Brush", mac: "J", win: "J" },
+        { action: "Clone Stamp", mac: "S", win: "S" },
+        { action: "Sample Source", mac: "⌥ Click", win: "Alt Click" },
+        { action: "Brush Size", mac: "[ or ]", win: "[ or ]" }
       ],
       proTips: [
-        "Always retouch on a new blank layer to keep the original image safe.",
-        "Lower the 'Flow' of your brush for more gradual, natural-looking skin work.",
-        "Use 'Frequency Separation' to edit skin color and skin texture independently."
+        "Always lower the 'Flow' of your brush to 5-10% for skin work. It's better to build up the effect slowly.",
+        "When using the Clone Stamp, change your source point frequently to avoid 'repeating patterns'.",
+        "Use the 'Patch Tool' for large areas like under-eye bags for a more natural blend."
       ],
       commonMistakes: [
-        "Over-smoothing skin until it looks like a 3D render.",
-        "Creating 'repeating patterns' when using the Clone Stamp.",
-        "Not matching the grain/noise of the original photo in your retouched areas."
+        "Over-smoothing skin until it looks like a 3D render. Pores are necessary for realism.",
+        "Retouching directly on the 'Background' layer.",
+        "Not matching the grain/noise of the original photo in your retouched areas, making them look 'blurry'."
       ],
       workflow: [
-        "Create a 'Retouch' layer",
-        "Remove blemishes with the Spot Healing Brush",
-        "Use the Clone Stamp for larger distractions",
-        "Apply a subtle 'High Pass' filter to restore texture"
+        "Duplicate background for safety",
+        "Create a 'Blemish' layer for Spot Healing",
+        "Create a 'Texture' layer for Clone Stamping",
+        "Set up Frequency Separation for skin smoothing",
+        "Apply a subtle 'Grain' filter to match original noise"
       ]
     }
   },
@@ -142,27 +176,35 @@ const STEPS = [
     skills: ["Adjustment Layers", "Curves & Levels", "Color Balance", "Selective Color"],
     duration: "60 mins",
     content: {
-      overview: "Color is the emotional language of an image. In this lesson, you'll learn how to fix 'broken' colors and then apply cinematic grades that tell a story.",
+      overview: "Color is the emotional language of an image. In this lesson, we move from 'Correction' (fixing mistakes) to 'Grading' (creating a mood). We use the most powerful tools in the software to manipulate light and hue.",
       detailedGuide: [
-        "Curves is the most powerful adjustment in Photoshop. We'll break down the 'S-Curve' for contrast and how to edit individual Red, Green, and Blue channels.",
-        "Color Balance vs. Selective Color: Learn when to shift the overall mood and when to target specific colors (like making the sky bluer without affecting the grass).",
-        "Luminosity Masking: A pro secret for applying color adjustments only to the highlights or shadows of an image."
+        "CURVES MASTERY: Curves is the king of adjustments. We learn the 'S-Curve' to add punchy contrast. We then dive into individual Red, Green, and Blue channels to remove color casts (e.g., adding Cyan to the shadows to counter a yellow tint).",
+        "LEVELS VS CURVES: Levels is for quick exposure fixes (Black point, White point, Midtones). Curves is for surgical control. We learn to read the Histogram to ensure we aren't 'clipping' (losing detail in) our highlights or shadows.",
+        "SELECTIVE COLOR: This is how we get 'The Look'. We can target just the Greens in a forest and shift them toward Yellow for a fall look, or target the Cyans in the sky to make them deeper and more cinematic.",
+        "LUMINOSITY MASKING: A pro secret. We create masks based on the brightness of pixels. This allows us to apply a warm orange glow only to the highlights of a sunset without affecting the dark foreground."
+      ],
+      shortcuts: [
+        { action: "Curves", mac: "⌘ M", win: "Ctrl M" },
+        { action: "Levels", mac: "⌘ L", win: "Ctrl L" },
+        { action: "Hue/Saturation", mac: "⌘ U", win: "Ctrl U" },
+        { action: "Invert Mask", mac: "⌘ I", win: "Ctrl I" }
       ],
       proTips: [
-        "Use the 'Targeted Adjustment Tool' in Curves to click and drag directly on the image.",
-        "Check your Histogram constantly to ensure you aren't 'clipping' your blacks or whites.",
-        "Apply a 'Color Lookup' (LUT) at 20% opacity for a quick professional finish."
+        "Use the 'Targeted Adjustment Tool' (the little hand icon in Curves) to click and drag directly on the image to adjust specific tones.",
+        "Apply a 'Color Lookup' (LUT) at 15-20% opacity as a final 'glue' to bring all colors together.",
+        "Always check your 'Info' panel to ensure your whites are truly white (255, 255, 255) and not tinted."
       ],
       commonMistakes: [
-        "Pushing saturation too high, leading to 'neon' colors that look cheap.",
-        "Ignoring the 'White Balance' before starting the creative grade.",
-        "Not using masks on adjustment layers to limit where the color change happens."
+        "Pushing Saturation too high. Use 'Vibrance' instead—it's smarter and protects skin tones.",
+        "Ignoring the 'White Balance' at the start. You can't grade a 'broken' image effectively.",
+        "Not using the 'Opacity' slider on your adjustment layers to dial back the effect."
       ],
       workflow: [
-        "Fix exposure with a Levels adjustment",
+        "Fix exposure with a Levels layer",
         "Correct White Balance with a Photo Filter",
         "Add contrast with a Curves S-Curve",
-        "Use Selective Color to fine-tune the palette"
+        "Shift specific hues with Selective Color",
+        "Apply a final LUT for cinematic consistency"
       ]
     }
   },
@@ -173,7 +215,7 @@ const STEPS = [
     skills: ["Perspective Warp", "Lighting Match", "Shadow Creation", "Atmospheric Depth"],
     duration: "120 mins",
     isLocked: true,
-    content: {} // Locked content
+    content: {}
   },
   {
     number: 7,
