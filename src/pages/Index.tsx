@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
@@ -66,14 +67,15 @@ const PROJECTS = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
   const portfolioRef = React.useRef<HTMLDivElement>(null);
 
   const scrollToPortfolio = () => {
     portfolioRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleContact = () => {
-    showSuccess("Opening contact form...");
+  const handleServices = () => {
+    navigate('/services');
   };
 
   return (
@@ -84,7 +86,7 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-sm font-medium mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Sparkles size={16} />
-            Creative Design Studio
+            LP Graphics Studio
           </div>
           <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
             WE CRAFT <br />
@@ -95,7 +97,7 @@ const Index = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
             <Button size="lg" className="rounded-full px-8 h-14 text-lg" onClick={scrollToPortfolio}>View Our Work</Button>
-            <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg" onClick={handleContact}>Our Services</Button>
+            <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg" onClick={handleServices}>Our Services</Button>
           </div>
         </div>
         
