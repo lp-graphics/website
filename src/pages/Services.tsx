@@ -3,6 +3,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { 
   Palette, 
@@ -70,6 +71,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Services" />
       <Navbar />
       
       {/* Hero Section */}

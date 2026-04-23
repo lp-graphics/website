@@ -4,6 +4,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CourseStep from '@/components/CourseStep';
+import SEO from '@/components/SEO';
 import { Accordion } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
@@ -262,6 +263,7 @@ const Course = () => {
 
   return (
     <div className="min-h-screen bg-muted/10">
+      <SEO title="PS Course" />
       <Navbar />
       
       <section className="pt-20 pb-16 bg-white border-b">

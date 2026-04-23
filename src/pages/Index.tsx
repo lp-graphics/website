@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { ArrowDown, Sparkles } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
@@ -80,6 +81,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Portfolio" />
       <Navbar />
       
       <section className="relative pt-20 pb-32 overflow-hidden">

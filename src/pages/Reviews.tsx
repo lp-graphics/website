@@ -4,6 +4,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ReviewCard from '@/components/ReviewCard';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Filter, MessageSquarePlus } from 'lucide-react';
@@ -72,6 +73,7 @@ const Reviews = () => {
 
   return (
     <div className="min-h-screen bg-muted/10">
+      <SEO title="Reviews" />
       <Navbar />
       
       <section className="pt-20 pb-16">
