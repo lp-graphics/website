@@ -7,7 +7,7 @@ import CourseStep from '@/components/CourseStep';
 import { Accordion } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { Play, BookOpen, Users, Sparkles, Trophy } from 'lucide-react';
+import { Play, Users, Sparkles, Trophy } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 
 const STEPS = [
@@ -267,17 +267,17 @@ const Course = () => {
       <section className="pt-20 pb-16 bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+            <div className="animate-in fade-in slide-in-from-left-4 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-sm font-medium mb-6">
                 <Sparkles size={16} />
-                Free Starter + Pro Mastery
+                Adobe Certified Professional Path
               </div>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6">
                 Photoshop Mastery: <br />
                 <span className="text-primary">Zero to Pro.</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-                Start for free with our 5-step foundation course. Upgrade to Pro for just $10 to unlock advanced techniques and the AI Practice Lab for all lessons.
+                Start for free with our 5-step foundation course. Upgrade to Pro for just $10 to unlock advanced techniques and earn your Adobe Certified Professional status.
               </p>
               
               <div className="flex flex-wrap gap-8 mb-10">
@@ -304,7 +304,7 @@ const Course = () => {
                     <Trophy size={18} />
                   </div>
                   <div>
-                    <div className="font-bold">Pro Certificate</div>
+                    <div className="font-bold">Adobe Certificate</div>
                     <div className="text-xs text-muted-foreground">Upon Completion</div>
                   </div>
                 </div>
@@ -320,7 +320,7 @@ const Course = () => {
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative animate-in fade-in slide-in-from-right-4 duration-700">
               <div className="aspect-video rounded-[40px] overflow-hidden shadow-2xl border-8 border-white">
                 <img 
                   src="https://images.unsplash.com/photo-1586717791821-3f44a563dc4c?auto=format&fit=crop&q=80&w=1200" 
@@ -360,7 +360,7 @@ const Course = () => {
             <div className="relative z-10">
               <h3 className="text-4xl md:text-5xl font-bold mb-6">Ready to go Pro?</h3>
               <p className="text-xl text-primary-foreground/80 mb-12 max-w-2xl mx-auto">
-                Get lifetime access to all 10 steps, advanced project files, and the AI Practice Lab for just $10.
+                Get lifetime access to all 10 steps, advanced project files, and the Adobe Certified Professional path for just $10.
               </p>
               <Button size="lg" variant="secondary" className="rounded-full px-16 h-20 text-2xl font-bold shadow-2xl" onClick={handleEnroll}>
                 Unlock Full Access — $10

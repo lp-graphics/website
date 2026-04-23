@@ -2,10 +2,14 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Twitter, Linkedin, Mail, ArrowRight } from 'lucide-react';
+import { Instagram, Twitter, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Footer = () => {
+  const handleHireUs = () => {
+    window.open("https://be.net/lp_graphics", "_blank");
+  };
+
   return (
     <footer className="bg-muted/30 border-t pt-16 pb-8">
       <div className="container mx-auto px-4">
@@ -18,14 +22,18 @@ const Footer = () => {
               <span>LP GRAPHICS</span>
             </Link>
             <p className="text-muted-foreground text-lg max-w-md mb-8">
-              We craft digital experiences that resonate. From branding to high-end visual design, we bring your vision to life.
+              Crafting high-end visual identities and digital experiences that resonate. Your vision, our creative expertise.
             </p>
             <div className="flex gap-4">
-              {[Instagram, Twitter, Linkedin, Mail].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
-                  <Icon size={18} />
-                </a>
-              ))}
+              <a href="https://instagram.com/lp.graphicss" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
+                <Instagram size={18} />
+              </a>
+              <a href="https://x.com/lp_graphicss" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
+                <Twitter size={18} />
+              </a>
+              <a href="mailto:lp.graphicss@proton.me" className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
+                <Mail size={18} />
+              </a>
             </div>
           </div>
 
@@ -41,16 +49,16 @@ const Footer = () => {
 
           <div>
             <h4 className="font-bold mb-6">Start a Project</h4>
-            <p className="text-muted-foreground mb-6">Have a vision? Let's make it happen together.</p>
-            <Button className="w-full rounded-xl group">
-              Get in Touch
+            <p className="text-muted-foreground mb-6">Ready to elevate your brand? Let's collaborate on Behance.</p>
+            <Button className="w-full rounded-xl group" onClick={handleHireUs}>
+              Hire Us on Behance
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
             </Button>
           </div>
         </div>
         
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>© 2024 LP Graphics. All rights reserved.</p>
+          <p>© 2026 LP Graphics. All rights reserved.</p>
           <div className="flex gap-8">
             <a href="#" className="hover:text-primary">Privacy Policy</a>
             <a href="#" className="hover:text-primary">Terms of Service</a>

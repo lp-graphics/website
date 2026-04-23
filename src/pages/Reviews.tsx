@@ -10,89 +10,93 @@ import { Search, Filter, MessageSquarePlus } from 'lucide-react';
 
 const REVIEWS = [
   {
-    name: "Sarah Jenkins",
-    role: "Marketing Director",
-    company: "TechFlow",
+    name: "Alex Rivera",
+    role: "CEO",
+    company: "Vanguard Tech",
     rating: 5,
-    text: "The team at Studio completely transformed our brand identity. Their attention to detail and creative vision is unmatched. We've seen a 40% increase in engagement since the relaunch.",
-    avatar: "https://i.pravatar.cc/150?u=sarah",
+    text: "LP Graphics delivered a brand identity that perfectly captured our vision. Their attention to detail in the typography and color palette was exceptional. Highly recommend for any high-end branding needs.",
+    avatar: "https://i.pravatar.cc/150?u=alex",
     service: "Branding"
   },
   {
-    name: "Michael Chen",
-    role: "Founder",
-    company: "UrbanEats",
+    name: "Sarah Thompson",
+    role: "Marketing Lead",
+    company: "EcoStyle",
     rating: 5,
-    text: "Working with them on our social media campaign was a breeze. They understood our voice immediately and delivered content that truly resonated with our audience.",
-    avatar: "https://i.pravatar.cc/150?u=michael",
+    text: "The social media content created for our launch campaign was stunning. We saw a significant boost in engagement and brand recognition. Professional, creative, and very easy to work with.",
+    avatar: "https://i.pravatar.cc/150?u=sarah",
     service: "Social Media"
   },
   {
-    name: "Elena Rodriguez",
-    role: "Creative Lead",
-    company: "Vogue Art",
-    rating: 4,
-    text: "Exceptional print design. The magazine layout they created for us was both modern and timeless. Highly recommend for any high-end editorial work.",
+    name: "James Chen",
+    role: "Founder",
+    company: "Urban Eats",
+    rating: 5,
+    text: "Incredible UI/UX work. They transformed our complex app idea into a beautiful, intuitive interface. The feedback from our users has been overwhelmingly positive.",
+    avatar: "https://i.pravatar.cc/150?u=james",
+    service: "UI/UX"
+  },
+  {
+    name: "Elena Petrova",
+    role: "Creative Director",
+    company: "Luxe Magazine",
+    rating: 5,
+    text: "The editorial layout for our anniversary issue was a masterpiece. LP Graphics has a unique eye for composition and modern aesthetics that is hard to find.",
     avatar: "https://i.pravatar.cc/150?u=elena",
     service: "Print"
   },
   {
-    name: "David Wilson",
+    name: "Marcus Wright",
     role: "Product Manager",
     company: "SwiftPay",
     rating: 5,
-    text: "The UI/UX work they did for our mobile app was game-changing. User retention improved significantly thanks to the intuitive and beautiful interface.",
-    avatar: "https://i.pravatar.cc/150?u=david",
-    service: "UI/UX"
+    text: "Fast turnaround without compromising on quality. The packaging design for our new hardware line stands out on the shelf and feels premium. A true partner in design.",
+    avatar: "https://i.pravatar.cc/150?u=marcus",
+    service: "Packaging"
   },
   {
-    name: "Jessica Lee",
+    name: "Olivia Grant",
     role: "Art Curator",
     company: "Modern Gallery",
     rating: 5,
-    text: "Their digital illustrations brought our exhibition to life. The level of craftsmanship and storytelling in their work is truly inspiring.",
-    avatar: "https://i.pravatar.cc/150?u=jessica",
+    text: "The digital illustrations provided for our digital exhibition were breathtaking. They brought a level of depth and storytelling that exceeded our expectations.",
+    avatar: "https://i.pravatar.cc/150?u=olivia",
     service: "Digital Art"
-  },
-  {
-    name: "Robert Taylor",
-    role: "CEO",
-    company: "GreenRoot",
-    rating: 5,
-    text: "The packaging design for our skincare line was exactly what we envisioned. It perfectly balances sustainability with a premium feel.",
-    avatar: "https://i.pravatar.cc/150?u=robert",
-    service: "Packaging"
   }
 ];
 
 const Reviews = () => {
+  const handleBehance = () => {
+    window.open("https://be.net/lp_graphics", "_blank");
+  };
+
   return (
     <div className="min-h-screen bg-muted/10">
       <Navbar />
       
       <section className="pt-20 pb-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6">What clients say</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">What clients say</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
             We pride ourselves on building lasting relationships and delivering exceptional results for every client.
           </p>
           
           {/* Stats Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border animate-in fade-in zoom-in-95 duration-700 delay-200">
             <div className="text-center">
-              <div className="text-4xl font-bold text-primary mb-1">4.9/5</div>
+              <div className="text-4xl font-bold text-primary mb-1">5.0/5</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Avg Rating</div>
             </div>
             <div className="text-center border-l">
-              <div className="text-4xl font-bold text-primary mb-1">150+</div>
+              <div className="text-4xl font-bold text-primary mb-1">200+</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Projects</div>
             </div>
             <div className="text-center border-l">
-              <div className="text-4xl font-bold text-primary mb-1">98%</div>
+              <div className="text-4xl font-bold text-primary mb-1">100%</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Satisfaction</div>
             </div>
             <div className="text-center border-l">
-              <div className="text-4xl font-bold text-primary mb-1">12</div>
+              <div className="text-4xl font-bold text-primary mb-1">15</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Awards</div>
             </div>
           </div>
@@ -120,7 +124,9 @@ const Reviews = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {REVIEWS.map((review, i) => (
-              <ReviewCard key={i} review={review} />
+              <div key={i} className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
+                <ReviewCard review={review} />
+              </div>
             ))}
           </div>
 
@@ -132,10 +138,10 @@ const Reviews = () => {
                 Join our list of happy clients and let's create something extraordinary together.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button size="lg" variant="secondary" className="rounded-full px-8 h-14 text-lg">
+                <Button size="lg" variant="secondary" className="rounded-full px-8 h-14 text-lg" onClick={handleBehance}>
                   Get a Free Quote
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg border-primary-foreground/20 hover:bg-primary-foreground/10">
+                <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg border-primary-foreground/20 hover:bg-primary-foreground/10" onClick={handleBehance}>
                   <MessageSquarePlus className="mr-2" size={20} />
                   Leave a Review
                 </Button>

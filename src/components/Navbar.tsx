@@ -18,6 +18,10 @@ const Navbar = () => {
     { name: 'PS Course', path: '/course', icon: BookOpen },
   ];
 
+  const handleHireUs = () => {
+    window.open("https://be.net/lp_graphics", "_blank");
+  };
+
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -43,7 +47,7 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          <Button className="rounded-full px-6">Hire Us</Button>
+          <Button className="rounded-full px-6" onClick={handleHireUs}>Hire Us</Button>
         </div>
 
         {/* Mobile Nav */}
@@ -70,7 +74,7 @@ const Navbar = () => {
                     {item.name}
                   </Link>
                 ))}
-                <Button className="w-full mt-4 rounded-xl py-6 text-lg">Hire Us</Button>
+                <Button className="w-full mt-4 rounded-xl py-6 text-lg" onClick={handleHireUs}>Hire Us</Button>
               </div>
             </SheetContent>
           </Sheet>

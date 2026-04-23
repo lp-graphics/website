@@ -75,18 +75,18 @@ const Services = () => {
       {/* Hero Section */}
       <section className="pt-24 pb-20 bg-muted/20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
             Our <span className="text-primary">Expertise.</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
             We provide a full suite of creative services to help your business stand out in a crowded digital landscape.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
             <Button size="lg" className="rounded-full px-8 h-14 text-lg" onClick={handleBehanceClick}>
               <ExternalLink className="mr-2" size={20} />
               View on Behance
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg">
+            <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg" onClick={handleBehanceClick}>
               Get a Custom Quote
             </Button>
           </div>
@@ -98,7 +98,7 @@ const Services = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {SERVICES.map((service, i) => (
-              <div key={i} className="group p-8 rounded-[40px] bg-white border hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+              <div key={i} className="group p-8 rounded-[40px] bg-white border hover:shadow-xl transition-all duration-500 hover:-translate-y-2 animate-in fade-in zoom-in-95 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
                 <div className={`w-16 h-16 ${service.color} rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg shadow-current/20`}>
                   <service.icon size={32} />
                 </div>
@@ -114,7 +114,7 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
-                <Button variant="ghost" className="p-0 hover:bg-transparent text-primary font-bold group-hover:translate-x-2 transition-transform">
+                <Button variant="ghost" className="p-0 hover:bg-transparent text-primary font-bold group-hover:translate-x-2 transition-transform" onClick={handleBehanceClick}>
                   Learn More <ArrowRight className="ml-2" size={16} />
                 </Button>
               </div>
