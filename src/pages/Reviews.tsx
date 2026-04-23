@@ -7,66 +7,12 @@ import ReviewCard from '@/components/ReviewCard';
 import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, MessageSquarePlus } from 'lucide-react';
-
-const REVIEWS = [
-  {
-    name: "Alex Rivera",
-    role: "CEO",
-    company: "Vanguard Tech",
-    rating: 5,
-    text: "LP Graphics delivered a brand identity that perfectly captured our vision. Their attention to detail in the typography and color palette was exceptional. Highly recommend for any high-end branding needs.",
-    avatar: "https://i.pravatar.cc/150?u=alex",
-    service: "Branding"
-  },
-  {
-    name: "Sarah Thompson",
-    role: "Marketing Lead",
-    company: "EcoStyle",
-    rating: 5,
-    text: "The social media content created for our launch campaign was stunning. We saw a significant boost in engagement and brand recognition. Professional, creative, and very easy to work with.",
-    avatar: "https://i.pravatar.cc/150?u=sarah",
-    service: "Social Media"
-  },
-  {
-    name: "James Chen",
-    role: "Founder",
-    company: "Urban Eats",
-    rating: 5,
-    text: "Incredible UI/UX work. They transformed our complex app idea into a beautiful, intuitive interface. The feedback from our users has been overwhelmingly positive.",
-    avatar: "https://i.pravatar.cc/150?u=james",
-    service: "UI/UX"
-  },
-  {
-    name: "Elena Petrova",
-    role: "Creative Director",
-    company: "Luxe Magazine",
-    rating: 5,
-    text: "The editorial layout for our anniversary issue was a masterpiece. LP Graphics has a unique eye for composition and modern aesthetics that is hard to find.",
-    avatar: "https://i.pravatar.cc/150?u=elena",
-    service: "Print"
-  },
-  {
-    name: "Marcus Wright",
-    role: "Product Manager",
-    company: "SwiftPay",
-    rating: 5,
-    text: "Fast turnaround without compromising on quality. The packaging design for our new hardware line stands out on the shelf and feels premium. A true partner in design.",
-    avatar: "https://i.pravatar.cc/150?u=marcus",
-    service: "Packaging"
-  },
-  {
-    name: "Olivia Grant",
-    role: "Art Curator",
-    company: "Modern Gallery",
-    rating: 5,
-    text: "The digital illustrations provided for our digital exhibition were breathtaking. They brought a level of depth and storytelling that exceeded our expectations.",
-    avatar: "https://i.pravatar.cc/150?u=olivia",
-    service: "Digital Art"
-  }
-];
+import { Search, Filter, MessageSquarePlus, MessageSquare } from 'lucide-react';
 
 const Reviews = () => {
+  // Reviews will be fetched from the database once Supabase is connected
+  const REVIEWS: any[] = [];
+
   const handleBehance = () => {
     window.open("https://be.net/lp_graphics", "_blank");
   };
@@ -78,9 +24,9 @@ const Reviews = () => {
       
       <section className="pt-20 pb-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">What clients say</h1>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">Client Feedback</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-            We pride ourselves on building lasting relationships and delivering exceptional results for every client.
+            Real stories from real clients. We value transparency and quality in every project we undertake.
           </p>
           
           {/* Stats Bar */}
@@ -118,19 +64,29 @@ const Reviews = () => {
                 <Filter className="mr-2" size={18} />
                 Filter by Service
               </Button>
-              <Button variant="outline" className="rounded-xl h-12 flex-grow md:flex-grow-0">
-                Sort by Rating
-              </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {REVIEWS.map((review, i) => (
-              <div key={i} className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
-                <ReviewCard review={review} />
+          {REVIEWS.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {REVIEWS.map((review, i) => (
+                <div key={i} className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
+                  <ReviewCard review={review} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-white rounded-[40px] border border-dashed">
+              <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+                <MessageSquare className="text-muted-foreground" size={32} />
               </div>
-            ))}
-          </div>
+              <h3 className="text-2xl font-bold mb-2">No reviews yet</h3>
+              <p className="text-muted-foreground mb-8">Be the first to share your experience with LP Graphics.</p>
+              <Button className="rounded-full px-8" onClick={handleBehance}>
+                Leave a Review on Behance
+              </Button>
+            </div>
+          )}
 
           {/* CTA Section */}
           <div className="mt-24 bg-primary rounded-[40px] p-12 md:p-20 text-center text-primary-foreground relative overflow-hidden">
