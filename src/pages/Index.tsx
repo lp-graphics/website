@@ -81,7 +81,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Portfolio" />
+      <SEO title="Home" />
       <Navbar />
       
       <section className="relative pt-20 pb-32 overflow-hidden">
