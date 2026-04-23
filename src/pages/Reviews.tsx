@@ -141,7 +141,12 @@ const Reviews = () => {
                 <Button size="lg" variant="secondary" className="rounded-full px-8 h-14 text-lg" onClick={handleBehance}>
                   Get a Free Quote
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg border-primary-foreground/20 hover:bg-primary-foreground/10" onClick={handleBehance}>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="rounded-full px-8 h-14 text-lg border-white text-white hover:bg-white hover:text-primary transition-colors" 
+                  onClick={handleBehance}
+                >
                   <MessageSquarePlus className="mr-2" size={20} />
                   Leave a Review
                 </Button>
