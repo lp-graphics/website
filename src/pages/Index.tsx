@@ -28,7 +28,7 @@ const PROJECTS = [
     category: "Sports Graphic",
     image: oliseImg,
     description: "High-end transfer announcement graphic for Michael Olise's move to Bayern München, featuring custom lighting and dynamic composition.",
-    tools: ["Photoshop", "Camera Raw", "Topaz AI"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "Personal Concept"
   },
   {
@@ -37,7 +37,7 @@ const PROJECTS = [
     category: "Digital Art",
     image: salahImg,
     description: "A vibrant, high-contrast tribute to Mohamed Salah, utilizing advanced masking and color grading to create a 'royal' aesthetic.",
-    tools: ["Photoshop", "Lightroom"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "LFC Fanbase"
   },
   {
@@ -46,7 +46,7 @@ const PROJECTS = [
     category: "Sports Graphic",
     image: lamarImg,
     description: "Gritty, texture-heavy design for Lamar Jackson, focusing on atmospheric depth and custom brushwork to match the Ravens' intensity.",
-    tools: ["Photoshop", "After Effects"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "NFL Concepts"
   },
   {
@@ -55,7 +55,7 @@ const PROJECTS = [
     category: "Sports Graphic",
     image: yildizImg,
     description: "Clean, monochrome-focused design for Juventus star Kenan Yildiz, emphasizing form and professional typography.",
-    tools: ["Photoshop", "Illustrator"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "Serie A Weekly"
   },
   {
@@ -64,7 +64,7 @@ const PROJECTS = [
     category: "Sports Graphic",
     image: castleImg,
     description: "Draft night concept for Stephon Castle, utilizing paper textures and custom vector elements to create a modern NBA aesthetic.",
-    tools: ["Photoshop", "Figma"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "NBA Draft Series"
   },
   {
@@ -82,7 +82,7 @@ const PROJECTS = [
     category: "Sports Graphic",
     image: ezeImg,
     description: "Clean, editorial-style graphic for Eberechi Eze, focusing on layout hierarchy and professional sports branding.",
-    tools: ["Photoshop", "InDesign"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "Premier League Concepts"
   },
   {
@@ -91,7 +91,7 @@ const PROJECTS = [
     category: "Sports Graphic",
     image: cadeauImg,
     description: "Vibrant college basketball graphic for Elliot Cadeau, utilizing Michigan's iconic colors and custom pattern overlays.",
-    tools: ["Photoshop", "Illustrator"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "NCAA Series"
   },
   {
@@ -100,7 +100,7 @@ const PROJECTS = [
     category: "Sports Graphic",
     image: acuffImg,
     description: "High-impact recruitment graphic for Darius Acuff Jr, featuring custom textures and bold typography.",
-    tools: ["Photoshop", "Topaz AI"],
+    tools: ["Photoshop", "Camera Raw"],
     client: "Razorbacks Concept"
   }
 ];
