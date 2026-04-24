@@ -39,9 +39,9 @@ const ProjectCard = ({ project }: { project: ProjectProps }) => {
         </div>
       </DialogTrigger>
       <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-[32px] border-none w-[95vw] md:w-full max-h-[90vh] overflow-y-auto md:overflow-visible">
-        {/* Custom Close Button with White Circle Background */}
-        <DialogPrimitive.Close className="absolute right-4 top-4 md:right-6 md:top-6 z-50 rounded-full bg-white p-2 shadow-xl hover:scale-110 transition-all duration-200 group">
-          <X className="h-5 w-5 md:h-6 md:w-6 text-black" />
+        {/* Custom Close Button with White Circle Background - Hidden on PC (md:hidden) */}
+        <DialogPrimitive.Close className="absolute right-4 top-4 z-50 rounded-full bg-white p-2 shadow-xl hover:scale-110 transition-all duration-200 group md:hidden">
+          <X className="h-5 w-5 text-black" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
 
