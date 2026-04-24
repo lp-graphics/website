@@ -21,28 +21,45 @@ import {
   LogOut
 } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
+import { supabase } from '@/lib/supabase';
 
 const Course = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [user, setUser] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const handleEnroll = () => {
-    if (!isLoggedIn) {
+    if (!user) {
       navigate('/login', { state: { from: { pathname: '/course' } } });
     } else {
       showSuccess("Redirecting to secure checkout...");
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     showSuccess("Logged out successfully.");
   };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-muted/10">
@@ -52,7 +69,7 @@ const Course = () => {
       <section className="pt-20 pb-16 bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="flex justify-end mb-8">
-            {isLoggedIn ? (
+            {user ? (
               <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-primary">
                 <LogOut className="mr-2" size={16} />
                 Logout
@@ -110,7 +127,7 @@ const Course = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="rounded-full px-10 h-16 text-lg shadow-2xl shadow-primary/20" onClick={handleEnroll}>
-                  {isLoggedIn ? "Unlock Full Access — $10" : "Login to Enroll"}
+                  {user ? "Unlock Full Access — $10" : "Login to Enroll"}
                 </Button>
                 <Button size="lg" variant="outline" className="rounded-full px-10 h-16 text-lg">
                   View Free Lessons
@@ -157,7 +174,7 @@ const Course = () => {
             {COURSE_STEPS.map((step) => (
               <Link 
                 key={step.id} 
-                to={!isLoggedIn ? '/login' : (step.isLocked ? '#' : `/course/lesson/${step.id}`)}
+                to={!user ? '/login' : (step.isLocked ? '#' : `/course/lesson/${step.id}`)}
                 className={`group bg-white rounded-[32px] p-8 border shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 ${step.isLocked ? 'opacity-75' : ''}`}
               >
                 <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 transition-colors ${
@@ -187,7 +204,7 @@ const Course = () => {
                 </div>
 
                 <div className="shrink-0">
-                  {!isLoggedIn ? (
+                  {!user ? (
                     <Button variant="outline" className="rounded-full px-8 h-12">Login to Start</Button>
                   ) : step.isLocked ? (
                     <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
@@ -208,7 +225,7 @@ const Course = () => {
                 Get lifetime access to all 10 steps, advanced project files, the AI Practice Lab, and the Adobe Certified Professional path for just $10.
               </p>
               <Button size="lg" variant="secondary" className="rounded-full px-16 h-20 text-2xl font-bold shadow-2xl hover:scale-105 transition-transform" onClick={handleEnroll}>
-                {isLoggedIn ? "Unlock Full Access — $10" : "Login to Unlock"}
+                {user ? "Unlock Full Access — $10" : "Login to Unlock"}
               </Button>
               <div className="mt-8 flex items-center justify-center gap-8 text-sm text-primary-foreground/60">
                 <span className="flex items-center gap-2"><CheckCircle2 size={16} /> Lifetime Access</span>
