@@ -82,7 +82,7 @@ const Navbar = () => {
             )}
           >
             <item.icon size={22} strokeWidth={location.pathname === item.path ? 2.5 : 2} />
-            <span className="text-[10px] font-bold uppercase tracking-tighter">{item.name}</span>
+            <span className="text-[10px] font-bold tracking-tight">{item.name}</span>
           </Link>
         ))}
       </nav>
