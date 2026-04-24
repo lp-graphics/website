@@ -38,59 +38,59 @@ const ProjectCard = ({ project }: { project: ProjectProps }) => {
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-[32px] border-none">
+      <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-[32px] border-none w-[95vw] md:w-full max-h-[90vh] overflow-y-auto md:overflow-visible">
         {/* Custom Close Button with White Circle Background */}
-        <DialogPrimitive.Close className="absolute right-6 top-6 z-50 rounded-full bg-white p-2 shadow-xl hover:scale-110 transition-all duration-200 group">
-          <X className="h-6 w-6 text-black" />
+        <DialogPrimitive.Close className="absolute right-4 top-4 md:right-6 md:top-6 z-50 rounded-full bg-white p-2 shadow-xl hover:scale-110 transition-all duration-200 group">
+          <X className="h-5 w-5 md:h-6 md:w-6 text-black" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
 
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="h-[300px] md:h-full">
+          <div className="h-[400px] md:h-full min-h-[300px]">
             <img 
               src={project.image} 
               alt={project.title}
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="p-8 md:p-12 flex flex-col bg-white">
-            <DialogHeader className="mb-8">
-              <Badge className="w-fit mb-4 bg-primary/10 text-primary border-none px-4 py-1">{project.category}</Badge>
-              <DialogTitle className="text-3xl md:text-4xl font-bold tracking-tight">{project.title}</DialogTitle>
+          <div className="p-6 md:p-12 flex flex-col bg-white">
+            <DialogHeader className="mb-6 md:mb-8">
+              <Badge className="w-fit mb-3 md:mb-4 bg-primary/10 text-primary border-none px-4 py-1">{project.category}</Badge>
+              <DialogTitle className="text-2xl md:text-4xl font-bold tracking-tight">{project.title}</DialogTitle>
             </DialogHeader>
             
-            <div className="space-y-8 flex-grow">
+            <div className="space-y-6 md:space-y-8 flex-grow">
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Project Overview</h4>
-                <p className="text-muted-foreground leading-relaxed text-lg">
+                <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2 md:mb-3">Project Overview</h4>
+                <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
                   {project.description}
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-2 gap-6 md:gap-8">
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
+                  <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2 md:mb-3 flex items-center gap-2">
                     <Layers size={14} className="text-primary" /> Tech Stack
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {project.tools.map(tool => (
-                      <span key={tool} className="text-xs font-bold bg-muted px-3 py-1.5 rounded-full">{tool}</span>
+                      <span key={tool} className="text-[10px] md:text-xs font-bold bg-muted px-3 py-1.5 rounded-full">{tool}</span>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
+                  <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2 md:mb-3 flex items-center gap-2">
                     <Clock size={14} className="text-primary" /> Client
                   </h4>
-                  <p className="text-sm font-bold">{project.client}</p>
+                  <p className="text-xs md:text-sm font-bold">{project.client}</p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-12 pt-8 border-t flex gap-4">
-              <Button className="flex-grow rounded-2xl h-14 text-lg font-bold shadow-lg shadow-primary/20">View Case Study</Button>
-              <Button variant="outline" size="icon" className="rounded-2xl h-14 w-14">
-                <ExternalLink size={20} />
+            <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t flex gap-3 md:gap-4">
+              <Button className="flex-grow rounded-2xl h-12 md:h-14 text-base md:text-lg font-bold shadow-lg shadow-primary/20">View Case Study</Button>
+              <Button variant="outline" size="icon" className="rounded-2xl h-12 w-12 md:h-14 md:w-14">
+                <ExternalLink size={18} md:size={20} />
               </Button>
             </div>
           </div>
