@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
@@ -16,19 +16,12 @@ import {
   CheckCircle2, 
   Lock, 
   Sparkles,
-  BookOpen,
-  Layout,
-  Loader2
+  Layout
 } from 'lucide-react';
-import { showSuccess, showError } from '@/utils/toast';
-import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/hooks/use-auth';
+import { showSuccess } from '@/utils/toast';
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const [isCompleting, setIsCompleting] = React.useState(false);
   
   const lessonIndex = COURSE_STEPS.findIndex(s => s.id === lessonId);
   const lesson = COURSE_STEPS[lessonIndex];
@@ -40,35 +33,8 @@ const LessonDetail = () => {
   const nextLesson = COURSE_STEPS[lessonIndex + 1];
   const prevLesson = COURSE_STEPS[lessonIndex - 1];
 
-  const handleComplete = async () => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
-    setIsCompleting(true);
-    try {
-      const { error } = await supabase
-        .from('user_progress')
-        .upsert({ 
-          user_id: user.id, 
-          lesson_id: lesson.id 
-        }, { onConflict: 'user_id,lesson_id' });
-
-      if (error) throw error;
-
-      showSuccess(`Lesson ${lesson.number} Completed!`);
-      
-      if (nextLesson && !nextLesson.isLocked) {
-        navigate(`/course/lesson/${nextLesson.id}`);
-      } else {
-        navigate('/course');
-      }
-    } catch (error: any) {
-      showError(error.message);
-    } finally {
-      setIsCompleting(false);
-    }
+  const handleComplete = () => {
+    showSuccess(`Lesson ${lesson.number} Completed!`);
   };
 
   return (
@@ -218,19 +184,9 @@ const LessonDetail = () => {
                     size="lg" 
                     className="rounded-full px-12 h-16 text-xl font-bold shadow-xl shadow-primary/20"
                     onClick={handleComplete}
-                    disabled={isCompleting}
                   >
-                    {isCompleting ? (
-                      <>
-                        <Loader2 className="mr-2 animate-spin" size={20} />
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        Complete & Continue
-                        <ArrowRight className="ml-2" size={20} />
-                      </>
-                    )}
+                    Complete & Continue
+                    <ArrowRight className="ml-2" size={20} />
                   </Button>
                 </div>
               </div>

@@ -9,18 +9,14 @@ import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
-import { Search, Filter, MessageSquarePlus, MessageSquare, Loader2 } from 'lucide-react';
+import { Search, MessageSquarePlus, MessageSquare, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/hooks/use-auth';
-import { useNavigate } from 'react-router-dom';
 
 const Reviews = () => {
   const [reviews, setReviews] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-  const { user } = useAuth();
-  const navigate = useNavigate();
 
   const fetchReviews = async () => {
     try {
@@ -47,14 +43,6 @@ const Reviews = () => {
     review.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
     review.service?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const handleWriteReview = () => {
-    if (!user) {
-      navigate('/login', { state: { from: { pathname: '/reviews' } } });
-    } else {
-      setIsDialogOpen(true);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-muted/10">
@@ -103,10 +91,12 @@ const Reviews = () => {
             </div>
             <div className="flex gap-3 w-full md:w-auto">
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <Button className="rounded-xl h-12 flex-grow md:flex-grow-0" onClick={handleWriteReview}>
-                  <MessageSquarePlus className="mr-2" size={18} />
-                  Write a Review
-                </Button>
+                <DialogTrigger asChild>
+                  <Button className="rounded-xl h-12 flex-grow md:flex-grow-0">
+                    <MessageSquarePlus className="mr-2" size={18} />
+                    Write a Review
+                  </Button>
+                </DialogTrigger>
                 <DialogContent className="sm:max-w-[500px] rounded-[32px]">
                   <DialogHeader>
                     <DialogTitle className="text-2xl font-bold">Share Your Experience</DialogTitle>
@@ -146,7 +136,7 @@ const Reviews = () => {
               </div>
               <h3 className="text-2xl font-bold mb-2">No reviews found</h3>
               <p className="text-muted-foreground mb-8">Try adjusting your search or be the first to leave feedback.</p>
-              <Button className="rounded-full px-8" onClick={handleWriteReview}>
+              <Button className="rounded-full px-8" onClick={() => setIsDialogOpen(true)}>
                 Write the First Review
               </Button>
             </div>

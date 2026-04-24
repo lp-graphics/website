@@ -44,12 +44,7 @@ const ReviewForm = ({ onSuccess }: ReviewFormProps) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) throw new Error("You must be logged in to submit a review");
-
       const { error } = await supabase.from('reviews').insert({
-        user_id: user.id,
         name: values.name,
         role: values.role,
         company: values.company,
