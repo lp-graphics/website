@@ -90,7 +90,7 @@ const ProjectCard = ({ project }: { project: ProjectProps }) => {
             <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t flex gap-3 md:gap-4">
               <Button className="flex-grow rounded-2xl h-12 md:h-14 text-base md:text-lg font-bold shadow-lg shadow-primary/20">View Case Study</Button>
               <Button variant="outline" size="icon" className="rounded-2xl h-12 w-12 md:h-14 md:w-14">
-                <ExternalLink size={18} md:size={20} />
+                <ExternalLink size={20} />
               </Button>
             </div>
           </div>
