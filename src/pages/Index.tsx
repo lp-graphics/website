@@ -137,7 +137,7 @@ const Index = () => {
             <Sparkles size={16} />
             LP Graphics Studio
           </div>
-          <h1 className="text-6xl md:text-[120px] font-black tracking-tighter mb-8 leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 uppercase">
+          <h1 className="text-7xl md:text-[150px] lg:text-[180px] font-black tracking-tighter mb-8 leading-[0.85] animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 uppercase">
             WE CRAFT <br />
             VISUAL STORIES.
           </h1>
