@@ -49,34 +49,29 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Start a Project */}
+          {/* Legal & Start a Project */}
           <div>
-            <h4 className="font-bold mb-6">Start a Project</h4>
-            <p className="text-muted-foreground mb-6">Ready to elevate your brand? Let's collaborate on Behance.</p>
+            <h4 className="font-bold mb-6">Legal</h4>
+            <ul className="space-y-4 mb-6">
+              <li><Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
+            </ul>
+            
+            <h4 className="font-bold mb-4">Start a Project</h4>
+            <p className="text-muted-foreground text-sm mb-4">Ready to elevate your brand? Let's collaborate.</p>
             <Button className="w-full rounded-xl group" onClick={handleHireUs}>
               Hire Us on Behance
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
             </Button>
           </div>
-
-          {/* Legal (no heading) */}
-          <div>
-            {/* Links visible only on desktop */}
-            <ul className="hidden md:block space-y-2">
-              <li><Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
-            </ul>
-          </div>
         </div>
 
-        {/* Bottom bar: copyright always visible; legal links desktop-only */}
+        {/* Bottom bar */}
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© 2026 LP Graphics. All rights reserved.</p>
           <div className="flex gap-8">
-            <ul className="hidden md:block gap-8">
-              <li><Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link></li>
-              <li><Link to="/terms-of-service" className="hover:text-primary">Terms of Service</Link></li>
-            </ul>
+            <Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
