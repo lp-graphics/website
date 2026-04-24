@@ -59,14 +59,14 @@ const Reviews = () => {
 
       <section className="pt-20 pb-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             Client Feedback
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">
             Real stories from real clients. We value transparency and quality in every project we undertake.
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border animate-in fade-in zoom-in-95 duration-700 delay-200">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border animate-in fade-in zoom-in-95 duration-1000 delay-500">
             <div className="text-center">
               <div className="text-4xl font-bold text-primary mb-1">5.0/5</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Avg Rating</div>
@@ -89,7 +89,7 @@ const Reviews = () => {
 
       <section className="pb-24">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-4 mb-12 items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 mb-12 items-center justify-between animate-in fade-in slide-in-from-top-4 duration-1000 delay-200">
             <div className="relative w-full md:w-96">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
               <Input
@@ -131,7 +131,7 @@ const Reviews = () => {
           {/* Static reviews */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredReviews.map((review, i) => (
-              <div key={review.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
+              <div key={review.id} className="animate-in fade-in slide-in-from-bottom-4 duration-1000" style={{ animationDelay: `${400 + (i * 150)}ms` }}>
                 <ReviewCard review={{
                   ...review,
                   avatar: review.avatar_url,

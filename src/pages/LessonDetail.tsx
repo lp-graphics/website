@@ -45,7 +45,7 @@ const LessonDetail = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar Navigation */}
-          <aside className="w-full lg:w-80 shrink-0">
+          <aside className="w-full lg:w-80 shrink-0 animate-in fade-in slide-in-from-left-4 duration-1000">
             <div className="sticky top-24 space-y-8">
               <Link to="/course" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8">
                 <ArrowLeft size={16} />
@@ -88,7 +88,7 @@ const LessonDetail = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-grow max-w-4xl">
+          <main className="flex-grow max-w-4xl animate-in fade-in slide-in-from-right-4 duration-1000 delay-300">
             {lesson.isLocked ? (
               <div className="bg-muted/30 rounded-[40px] p-12 md:p-20 text-center border-2 border-dashed min-h-[600px] flex flex-col items-center justify-center">
                 <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-8 shadow-xl">
