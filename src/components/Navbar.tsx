@@ -3,13 +3,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Palette, Star, BookOpen, Menu, Briefcase } from 'lucide-react';
+import { Palette, Star, BookOpen, Briefcase, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const Navbar = () => {
   const location = useLocation();
-  const [isOpen, setIsOpen] = React.useState(false);
 
   const navItems = [
     { name: 'Portfolio', path: '/', icon: Palette },
@@ -20,20 +18,35 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Spacer for mobile to prevent content from being hidden behind the fixed bottom nav */}
-      <div className="h-16 md:hidden" />
-      
-      <nav className="fixed bottom-0 md:sticky md:top-0 md:bottom-auto z-50 w-full border-t md:border-t-0 md:border-b bg-background/80 backdrop-blur-md">
+      {/* Mobile Top Header (Logo Only) */}
+      <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-md border-b z-50 flex items-center justify-between px-6">
+        <Link to="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter text-primary">
+          <div className="w-10 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground text-xs">
+            LP
+          </div>
+          <span>LP GRAPHICS</span>
+        </Link>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="rounded-full font-bold text-xs"
+          onClick={() => window.open("https://be.net/lp_graphics", "_blank")}
+        >
+          Hire
+        </Button>
+      </header>
+
+      {/* Desktop Navbar (Standard Top Nav) */}
+      <nav className="hidden md:sticky md:top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter text-primary">
             <div className="w-10 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground text-xs">
               LP
             </div>
-            <span className="hidden xs:block">LP GRAPHICS</span>
+            <span>LP GRAPHICS</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="flex items-center gap-8">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -54,48 +67,29 @@ const Navbar = () => {
               </Button>
             </div>
           </div>
-
-          {/* Mobile Nav Trigger */}
-          <div className="md:hidden flex items-center gap-2">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <Menu size={24} />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="bottom" className="rounded-t-[32px] h-[70vh] p-8">
-                <div className="flex flex-col gap-6 mt-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold tracking-tighter">Menu</h2>
-                    <div className="w-12 h-1 bg-muted rounded-full mx-auto" />
-                  </div>
-                  
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "text-xl font-bold flex items-center gap-4 p-4 rounded-2xl transition-all",
-                        location.pathname === item.path ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" : "hover:bg-muted"
-                      )}
-                    >
-                      <item.icon size={24} />
-                      {item.name}
-                    </Link>
-                  ))}
-                  
-                  <div className="pt-6 border-t mt-4">
-                    <Button className="w-full rounded-2xl py-8 text-xl font-bold shadow-xl shadow-primary/20" onClick={() => window.open("https://be.net/lp_graphics", "_blank")}>
-                      Hire Us on Behance
-                    </Button>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
       </nav>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-lg border-t z-50 flex items-center justify-around px-2 pb-safe">
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={cn(
+              "flex flex-col items-center justify-center gap-1 w-full h-full transition-all duration-300",
+              location.pathname === item.path ? "text-primary scale-110" : "text-muted-foreground"
+            )}
+          >
+            <item.icon size={22} strokeWidth={location.pathname === item.path ? 2.5 : 2} />
+            <span className="text-[10px] font-bold uppercase tracking-tighter">{item.name}</span>
+          </Link>
+        ))}
+      </nav>
+
+      {/* Spacers to prevent content overlap on mobile */}
+      <div className="h-16 md:hidden" /> {/* Top spacer */}
+      <div className="h-16 md:hidden" /> {/* Bottom spacer */}
     </>
   );
 };
