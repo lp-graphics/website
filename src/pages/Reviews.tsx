@@ -4,34 +4,41 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ReviewCard from '@/components/ReviewCard';
+import ReviewForm from '@/components/ReviewForm';
 import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { Search, Filter, MessageSquarePlus, MessageSquare, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/hooks/use-auth';
+import { useNavigate } from 'react-router-dom';
 
 const Reviews = () => {
   const [reviews, setReviews] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const fetchReviews = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('reviews')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setReviews(data || []);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   React.useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('reviews')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-        setReviews(data || []);
-      } catch (error) {
-        console.error('Error fetching reviews:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchReviews();
   }, []);
 
@@ -41,8 +48,12 @@ const Reviews = () => {
     review.service?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleBehance = () => {
-    window.open("https://be.net/lp_graphics", "_blank");
+  const handleWriteReview = () => {
+    if (!user) {
+      navigate('/login', { state: { from: { pathname: '/reviews' } } });
+    } else {
+      setIsDialogOpen(true);
+    }
   };
 
   return (
@@ -57,14 +68,13 @@ const Reviews = () => {
             Real stories from real clients. We value transparency and quality in every project we undertake.
           </p>
           
-          {/* Stats Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border animate-in fade-in zoom-in-95 duration-700 delay-200">
             <div className="text-center">
               <div className="text-4xl font-bold text-primary mb-1">5.0/5</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Avg Rating</div>
             </div>
             <div className="text-center border-l">
-              <div className="text-4xl font-bold text-primary mb-1">200+</div>
+              <div className="text-4xl font-bold text-primary mb-1">{reviews.length}+</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Projects</div>
             </div>
             <div className="text-center border-l">
@@ -81,7 +91,6 @@ const Reviews = () => {
 
       <section className="pb-24">
         <div className="container mx-auto px-4">
-          {/* Filter Bar */}
           <div className="flex flex-col md:flex-row gap-4 mb-12 items-center justify-between">
             <div className="relative w-full md:w-96">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
@@ -93,10 +102,24 @@ const Reviews = () => {
               />
             </div>
             <div className="flex gap-3 w-full md:w-auto">
-              <Button variant="outline" className="rounded-xl h-12 flex-grow md:flex-grow-0">
-                <Filter className="mr-2" size={18} />
-                Filter by Service
-              </Button>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <Button className="rounded-xl h-12 flex-grow md:flex-grow-0" onClick={handleWriteReview}>
+                  <MessageSquarePlus className="mr-2" size={18} />
+                  Write a Review
+                </Button>
+                <DialogContent className="sm:max-w-[500px] rounded-[32px]">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl font-bold">Share Your Experience</DialogTitle>
+                    <DialogDescription>
+                      Your feedback helps us improve and helps others choose our services.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <ReviewForm onSuccess={() => {
+                    setIsDialogOpen(false);
+                    fetchReviews();
+                  }} />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
 
@@ -111,7 +134,7 @@ const Reviews = () => {
                 <div key={review.id || i} className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
                   <ReviewCard review={{
                     ...review,
-                    avatar: review.avatar_url // Map DB column to component prop
+                    avatar: review.avatar_url
                   }} />
                 </div>
               ))}
@@ -123,38 +146,11 @@ const Reviews = () => {
               </div>
               <h3 className="text-2xl font-bold mb-2">No reviews found</h3>
               <p className="text-muted-foreground mb-8">Try adjusting your search or be the first to leave feedback.</p>
-              <Button className="rounded-full px-8" onClick={handleBehance}>
-                Leave a Review on Behance
+              <Button className="rounded-full px-8" onClick={handleWriteReview}>
+                Write the First Review
               </Button>
             </div>
           )}
-
-          {/* CTA Section */}
-          <div className="mt-24 bg-primary rounded-[40px] p-12 md:p-20 text-center text-primary-foreground relative overflow-hidden">
-            <div className="relative z-10">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to start your story?</h2>
-              <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10">
-                Join our list of happy clients and let's create something extraordinary together.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button size="lg" variant="secondary" className="rounded-full px-8 h-14 text-lg" onClick={handleBehance}>
-                  Get a Free Quote
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="rounded-full px-8 h-14 text-lg border-white text-white hover:bg-white hover:text-primary transition-colors" 
-                  onClick={handleBehance}
-                >
-                  <MessageSquarePlus className="mr-2" size={20} />
-                  Leave a Review
-                </Button>
-              </div>
-            </div>
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mb-32 blur-3xl" />
-          </div>
         </div>
       </section>
 
