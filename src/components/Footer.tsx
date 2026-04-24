@@ -59,11 +59,12 @@ const Footer = () => {
             </Button>
           </div>
 
-          {/* Legal (no copyright here) */}
+          {/* Legal (no heading) */}
           <div>
-            <h4 className="font-bold mb-6">Legal</h4>
-            <ul className="space-y-2">
-              {/* Links will be placed in the bottom bar */}
+            {/* Links visible only on mobile */}
+            <ul className="md:hidden space-y-2">
+              <li><Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
@@ -72,12 +73,11 @@ const Footer = () => {
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© 2026 LP Graphics. All rights reserved.</p>
           <div className="flex gap-8">
-            <Link to="/privacy-policy" className="hover:text-primary">
-              Privacy Policy
-            </Link>
-            <Link to="/terms-of-service" className="hover:text-primary">
-              Terms of Service
-            </Link>
+            {/* Links visible only on desktop */}
+            <ul className="hidden md:flex gap-8">
+              <li><Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="hover:text-primary">Terms of Service</Link></li>
+            </ul>
           </div>
         </div>
       </div>
