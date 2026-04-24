@@ -7,11 +7,39 @@ import ReviewCard from '@/components/ReviewCard';
 import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, MessageSquarePlus, MessageSquare } from 'lucide-react';
+import { Search, Filter, MessageSquarePlus, MessageSquare, Loader2 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 const Reviews = () => {
-  // Reviews will be fetched from the database once Supabase is connected
-  const REVIEWS: any[] = [];
+  const [reviews, setReviews] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [searchQuery, setSearchQuery] = React.useState('');
+
+  React.useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('reviews')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setReviews(data || []);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  const filteredReviews = reviews.filter(review => 
+    review.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    review.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    review.service?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleBehance = () => {
     window.open("https://be.net/lp_graphics", "_blank");
@@ -57,7 +85,12 @@ const Reviews = () => {
           <div className="flex flex-col md:flex-row gap-4 mb-12 items-center justify-between">
             <div className="relative w-full md:w-96">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
-              <Input className="pl-10 rounded-xl h-12 bg-white" placeholder="Search reviews..." />
+              <Input 
+                className="pl-10 rounded-xl h-12 bg-white" 
+                placeholder="Search reviews..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
             <div className="flex gap-3 w-full md:w-auto">
               <Button variant="outline" className="rounded-xl h-12 flex-grow md:flex-grow-0">
@@ -67,11 +100,19 @@ const Reviews = () => {
             </div>
           </div>
 
-          {REVIEWS.length > 0 ? (
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader2 className="animate-spin text-primary mb-4" size={40} />
+              <p className="text-muted-foreground">Loading client stories...</p>
+            </div>
+          ) : filteredReviews.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {REVIEWS.map((review, i) => (
-                <div key={i} className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
-                  <ReviewCard review={review} />
+              {filteredReviews.map((review, i) => (
+                <div key={review.id || i} className="animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${i * 100}ms` }}>
+                  <ReviewCard review={{
+                    ...review,
+                    avatar: review.avatar_url // Map DB column to component prop
+                  }} />
                 </div>
               ))}
             </div>
@@ -80,8 +121,8 @@ const Reviews = () => {
               <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                 <MessageSquare className="text-muted-foreground" size={32} />
               </div>
-              <h3 className="text-2xl font-bold mb-2">No reviews yet</h3>
-              <p className="text-muted-foreground mb-8">Be the first to share your experience with LP Graphics.</p>
+              <h3 className="text-2xl font-bold mb-2">No reviews found</h3>
+              <p className="text-muted-foreground mb-8">Try adjusting your search or be the first to leave feedback.</p>
               <Button className="rounded-full px-8" onClick={handleBehance}>
                 Leave a Review on Behance
               </Button>

@@ -1,15 +1,19 @@
 "use client";
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Palette, Star, BookOpen, Menu, Briefcase } from 'lucide-react';
+import { Palette, Star, BookOpen, Menu, Briefcase, LogOut, User as UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useAuth } from '@/hooks/use-auth';
+import { showSuccess } from '@/utils/toast';
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { name: 'Portfolio', path: '/', icon: Palette },
@@ -18,8 +22,10 @@ const Navbar = () => {
     { name: 'PS Course', path: '/course', icon: BookOpen },
   ];
 
-  const handleHireUs = () => {
-    window.open("https://be.net/lp_graphics", "_blank");
+  const handleLogout = async () => {
+    await signOut();
+    showSuccess("Logged out successfully");
+    navigate('/');
   };
 
   return (
@@ -47,11 +53,29 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          <Button className="rounded-full px-6" onClick={handleHireUs}>Hire Us</Button>
+          
+          <div className="flex items-center gap-3 border-l pl-8">
+            {user ? (
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-primary">
+                <LogOut size={18} className="mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <Link to="/login">
+                <Button variant="outline" size="sm" className="rounded-full">
+                  <UserIcon size={16} className="mr-2" />
+                  Login
+                </Button>
+              </Link>
+            )}
+            <Button className="rounded-full px-6" onClick={() => window.open("https://be.net/lp_graphics", "_blank")}>
+              Hire Us
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Nav */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -74,7 +98,25 @@ const Navbar = () => {
                     {item.name}
                   </Link>
                 ))}
-                <Button className="w-full mt-4 rounded-xl py-6 text-lg" onClick={handleHireUs}>Hire Us</Button>
+                
+                <div className="pt-6 border-t space-y-4">
+                  {user ? (
+                    <Button variant="outline" className="w-full rounded-xl py-6" onClick={handleLogout}>
+                      <LogOut size={20} className="mr-2" />
+                      Logout
+                    </Button>
+                  ) : (
+                    <Link to="/login" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" className="w-full rounded-xl py-6">
+                        <UserIcon size={20} className="mr-2" />
+                        Student Login
+                      </Button>
+                    </Link>
+                  )}
+                  <Button className="w-full rounded-xl py-6 text-lg" onClick={() => window.open("https://be.net/lp_graphics", "_blank")}>
+                    Hire Us
+                  </Button>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
