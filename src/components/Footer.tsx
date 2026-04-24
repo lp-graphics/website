@@ -31,7 +31,7 @@ const Footer = () => {
               <a href="https://x.com/lp_graphicss" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
                 <Twitter size={18} />
               </a>
-              <a href="mailto:lp.graphicss@proton.me" className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
+              <a href="mailto:lp.graphicss@gmail.com" className="w-10 h-10 rounded-full bg-background border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
                 <Mail size={18} />
               </a>
             </div>
