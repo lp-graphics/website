@@ -45,12 +45,6 @@ const Footer = () => {
               <li><Link to="/reviews" className="text-muted-foreground hover:text-primary transition-colors">Reviews</Link></li>
               <li><Link to="/course" className="text-muted-foreground hover:text-primary transition-colors">PS Course</Link></li>
             </ul>
-            
-            {/* Legal Links moved here */}
-            <div className="mt-6 space-y-3">
-              <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
-              <Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
-            </div>
           </div>
 
           <div>
@@ -65,8 +59,7 @@ const Footer = () => {
           <div>
             <h4 className="font-bold mb-6">Legal</h4>
             <ul className="space-y-2">
-              <li><Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
+              {/* Privacy Policy and Terms of Service links removed */}
             </ul>
           </div>
         </div>
@@ -74,8 +67,7 @@ const Footer = () => {
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© 2026 LP Graphics. All rights reserved.</p>
           <div className="flex gap-8">
-            <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
-            <Link to="/terms-of-service" className="hover:text-primary">Terms of Service</Link>
+            {/* Privacy Policy and Terms of Service links removed */}
           </div>
         </div>
       </div>
