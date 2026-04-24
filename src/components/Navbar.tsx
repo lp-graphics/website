@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <>
       {/* --- DESKTOP NAVIGATION (Top Only) --- */}
-      <nav className="hidden md:sticky md:top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
+      <nav className="hidden md:flex md:sticky md:top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 font-bold text-2xl tracking-tighter text-primary">
             <div className="w-12 h-10 bg-primary rounded-xl flex items-center justify-center text-primary-foreground text-sm">
