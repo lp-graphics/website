@@ -21,10 +21,7 @@ import { showSuccess } from '@/utils/toast';
 
 const Course = () => {
   const handleEnroll = () => {
-    showSuccess("Redirecting to Behance for enrollment...");
-    setTimeout(() => {
-      window.open("https://be.net/lp_graphics", "_blank");
-    }, 1000);
+    showSuccess("Redirecting to secure checkout...");
   };
 
   return (
@@ -153,10 +150,7 @@ const Course = () => {
 
                   <div className="shrink-0">
                     {step.isLocked ? (
-                      <Button variant="outline" className="rounded-full px-8 h-12 border-dashed" onClick={(e) => {
-                        e.preventDefault();
-                        handleEnroll();
-                      }}>Unlock Step</Button>
+                      <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
                     ) : (
                       <Button className="rounded-full px-8 h-12 transition-transform group-hover:translate-x-2">
                         Start Lesson <ArrowRight className="ml-2" size={18} />
