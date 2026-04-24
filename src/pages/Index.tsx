@@ -10,60 +10,98 @@ import { Button } from '@/components/ui/button';
 import { ArrowDown, Sparkles } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 
+// Importing local assets
+import oliseImg from '@/assets/portfolio/olise-1.jpg';
+import salahImg from '@/assets/portfolio/mo-salah.png';
+import lamarImg from '@/assets/portfolio/lamar-jackson.jpg';
+import yildizImg from '@/assets/portfolio/kenan-yildiz.jpg';
+import castleImg from '@/assets/portfolio/stephon-castle.jpg';
+import doueImg from '@/assets/portfolio/desire-doue.jpg';
+import ezeImg from '@/assets/portfolio/eze.jpg';
+import cadeauImg from '@/assets/portfolio/elliot-cadeau.jpg';
+import acuffImg from '@/assets/portfolio/darius-acuff.jpg';
+
 const PROJECTS = [
   {
     id: 1,
-    title: "Lumina Branding",
-    category: "Branding",
-    image: "https://images.unsplash.com/photo-1634942537034-2531766767d7?auto=format&fit=crop&q=80&w=800",
-    description: "A complete visual identity for a high-end lighting studio, focusing on minimalism and light play.",
-    tools: ["Photoshop", "Illustrator", "Figma"],
-    client: "Lumina Studios"
+    title: "Michael Olise | Bayern",
+    category: "Sports Graphic",
+    image: oliseImg,
+    description: "High-end transfer announcement graphic for Michael Olise's move to Bayern München, featuring custom lighting and dynamic composition.",
+    tools: ["Photoshop", "Camera Raw", "Topaz AI"],
+    client: "Personal Concept"
   },
   {
     id: 2,
-    title: "Urban Pulse",
-    category: "Social Media",
-    image: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=800",
-    description: "Dynamic social media campaign for a streetwear brand, utilizing bold typography and gritty textures.",
-    tools: ["Photoshop", "After Effects"],
-    client: "Pulse Wear"
+    title: "Mo Salah | The King",
+    category: "Digital Art",
+    image: salahImg,
+    description: "A vibrant, high-contrast tribute to Mohamed Salah, utilizing advanced masking and color grading to create a 'royal' aesthetic.",
+    tools: ["Photoshop", "Lightroom"],
+    client: "LFC Fanbase"
   },
   {
     id: 3,
-    title: "Ethereal Magazine",
-    category: "Print",
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=800",
-    description: "Editorial design for a quarterly arts publication, featuring custom layouts and photo treatments.",
-    tools: ["InDesign", "Photoshop"],
-    client: "Ethereal Collective"
+    title: "Lamar Jackson | MVP",
+    category: "Sports Graphic",
+    image: lamarImg,
+    description: "Gritty, texture-heavy design for Lamar Jackson, focusing on atmospheric depth and custom brushwork to match the Ravens' intensity.",
+    tools: ["Photoshop", "After Effects"],
+    client: "NFL Concepts"
   },
   {
     id: 4,
-    title: "Neon Nights",
-    category: "Digital Art",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800",
-    description: "A series of digital illustrations exploring the intersection of technology and nature in a cyberpunk future.",
-    tools: ["Photoshop", "Procreate"],
-    client: "Personal Project"
+    title: "Kenan Yildiz | Juve",
+    category: "Sports Graphic",
+    image: yildizImg,
+    description: "Clean, monochrome-focused design for Juventus star Kenan Yildiz, emphasizing form and professional typography.",
+    tools: ["Photoshop", "Illustrator"],
+    client: "Serie A Weekly"
   },
   {
     id: 5,
-    title: "Organic Roots",
-    category: "Packaging",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800",
-    description: "Sustainable packaging design for an organic skincare line, using earthy tones and recycled materials.",
-    tools: ["Illustrator", "Photoshop"],
-    client: "Roots Skincare"
+    title: "Stephon Castle | Spurs",
+    category: "Sports Graphic",
+    image: castleImg,
+    description: "Draft night concept for Stephon Castle, utilizing paper textures and custom vector elements to create a modern NBA aesthetic.",
+    tools: ["Photoshop", "Figma"],
+    client: "NBA Draft Series"
   },
   {
     id: 6,
-    title: "Velocity App",
-    category: "UI/UX",
-    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800",
-    description: "Interface design for a high-performance fitness tracking app, prioritizing speed and clarity.",
-    tools: ["Figma", "Photoshop"],
-    client: "Velocity Tech"
+    title: "Desire Doue | PSG",
+    category: "Sports Graphic",
+    image: doueImg,
+    description: "Dynamic blue-toned composition for Desire Doue, featuring advanced lighting effects and motion blur for a high-energy feel.",
+    tools: ["Photoshop", "Camera Raw"],
+    client: "PSG Concept"
+  },
+  {
+    id: 7,
+    title: "Eberechi Eze | Arsenal",
+    category: "Sports Graphic",
+    image: ezeImg,
+    description: "Clean, editorial-style graphic for Eberechi Eze, focusing on layout hierarchy and professional sports branding.",
+    tools: ["Photoshop", "InDesign"],
+    client: "Premier League Concepts"
+  },
+  {
+    id: 8,
+    title: "Elliot Cadeau | Michigan",
+    category: "Sports Graphic",
+    image: cadeauImg,
+    description: "Vibrant college basketball graphic for Elliot Cadeau, utilizing Michigan's iconic colors and custom pattern overlays.",
+    tools: ["Photoshop", "Illustrator"],
+    client: "NCAA Series"
+  },
+  {
+    id: 9,
+    title: "Darius Acuff Jr | Hogs",
+    category: "Sports Graphic",
+    image: acuffImg,
+    description: "High-impact recruitment graphic for Darius Acuff Jr, featuring custom textures and bold typography.",
+    tools: ["Photoshop", "Topaz AI"],
+    client: "Razorbacks Concept"
   }
 ];
 
@@ -95,7 +133,7 @@ const Index = () => {
             <span className="text-primary">VISUAL STORIES.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-            A boutique studio specializing in branding, digital experiences, and high-end visual content that leaves a lasting impression.
+            A boutique studio specializing in high-end sports graphics, digital experiences, and visual content that leaves a lasting impression.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
             <Button size="lg" className="rounded-full px-8 h-14 text-lg" onClick={scrollToPortfolio}>View Our Work</Button>
@@ -111,11 +149,11 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div>
               <h2 className="text-4xl font-bold mb-4">Selected Works</h2>
-              <p className="text-muted-foreground text-lg">A curated collection of our most impactful projects.</p>
+              <p className="text-muted-foreground text-lg">A curated collection of our most impactful sports graphics.</p>
             </div>
             <div className="flex gap-4">
               <Button variant="ghost" className="rounded-full" onClick={() => showSuccess("Filtering by All")}>All</Button>
-              <Button variant="ghost" className="rounded-full" onClick={() => showSuccess("Filtering by Branding")}>Branding</Button>
+              <Button variant="ghost" className="rounded-full" onClick={() => showSuccess("Filtering by Sports")}>Sports</Button>
               <Button variant="ghost" className="rounded-full" onClick={() => showSuccess("Filtering by Digital")}>Digital</Button>
             </div>
           </div>
