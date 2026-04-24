@@ -17,8 +17,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center gap-2 font-bold text-2xl tracking-tighter text-primary mb-6">
               <div className="w-12 h-10 bg-primary rounded-xl flex items-center justify-center text-primary-foreground text-sm">
-                LP
-              </div>
+                LP              </div>
               <span>LP GRAPHICS</span>
             </Link>
             <p className="text-muted-foreground text-lg max-w-md mb-8">
@@ -61,6 +60,8 @@ const Footer = () => {
             <ul className="space-y-2">
               {/* Privacy Policy and Terms of Service links removed */}
             </ul>
+            {/* Added copyright notice under Legal */}
+            <p className="text-sm text-muted-foreground">© 2026 LP Graphics. All rights reserved.</p>
           </div>
         </div>
         
