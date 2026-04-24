@@ -45,6 +45,12 @@ const Footer = () => {
               <li><Link to="/reviews" className="text-muted-foreground hover:text-primary transition-colors">Reviews</Link></li>
               <li><Link to="/course" className="text-muted-foreground hover:text-primary transition-colors">PS Course</Link></li>
             </ul>
+            
+            {/* Legal Links moved here */}
+            <div className="mt-6 space-y-3">
+              <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
+            </div>
           </div>
 
           <div>
@@ -54,6 +60,14 @@ const Footer = () => {
               Hire Us on Behance
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
             </Button>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-6">Legal</h4>
+            <ul className="space-y-2">
+              <li><Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
+            </ul>
           </div>
         </div>
         
