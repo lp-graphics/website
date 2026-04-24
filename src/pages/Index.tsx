@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
 import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
-import { ArrowDown, Sparkles, X } from 'lucide-react';
+import { ArrowDown, Sparkles } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 
 // Importing local assets
@@ -137,9 +137,9 @@ const Index = () => {
             <Sparkles size={16} />
             LP Graphics Studio
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+          <h1 className="text-6xl md:text-[120px] font-black tracking-tighter mb-8 leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 uppercase">
             WE CRAFT <br />
-            <span className="text-primary">VISUAL STORIES.</span>
+            VISUAL STORIES.
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
             A boutique studio specializing in high-end sports graphics, digital experiences, and visual content that leaves a lasting impression.
