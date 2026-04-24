@@ -22,27 +22,35 @@ import {
 } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/hooks/use-auth';
 
 const Course = () => {
   const navigate = useNavigate();
-  const [user, setUser] = React.useState<any>(null);
-  const [loading, setLoading] = React.useState(true);
+  const { user, loading: authLoading } = useAuth();
+  const [completedLessons, setCompletedLessons] = React.useState<string[]>([]);
+  const [loadingProgress, setLoadingProgress] = React.useState(false);
 
   React.useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setLoading(false);
+    const fetchProgress = async () => {
+      if (!user) return;
+      setLoadingProgress(true);
+      try {
+        const { data, error } = await supabase
+          .from('user_progress')
+          .select('lesson_id')
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+        setCompletedLessons(data.map(p => p.lesson_id));
+      } catch (error) {
+        console.error('Error fetching progress:', error);
+      } finally {
+        setLoadingProgress(false);
+      }
     };
 
-    checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+    fetchProgress();
+  }, [user]);
 
   const handleEnroll = () => {
     if (!user) {
@@ -52,12 +60,9 @@ const Course = () => {
     }
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    showSuccess("Logged out successfully.");
-  };
+  const progressValue = (completedLessons.length / COURSE_STEPS.length) * 100;
 
-  if (loading) {
+  if (authLoading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
@@ -68,19 +73,6 @@ const Course = () => {
       
       <section className="pt-20 pb-16 bg-white border-b">
         <div className="container mx-auto px-4">
-          <div className="flex justify-end mb-8">
-            {user ? (
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-primary">
-                <LogOut className="mr-2" size={16} />
-                Logout
-              </Button>
-            ) : (
-              <Button variant="outline" size="sm" onClick={() => navigate('/login')} className="rounded-full">
-                Student Login
-              </Button>
-            )}
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="animate-in fade-in slide-in-from-left-4 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-sm font-medium mb-6">
@@ -148,14 +140,18 @@ const Course = () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute -bottom-8 -left-8 bg-white p-8 rounded-[32px] shadow-2xl border w-80 hidden md:block">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="font-bold text-lg">Course Progress</span>
-                  <span className="text-primary font-bold">0/10</span>
+              {user && (
+                <div className="absolute -bottom-8 -left-8 bg-white p-8 rounded-[32px] shadow-2xl border w-80 hidden md:block">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="font-bold text-lg">Your Progress</span>
+                    <span className="text-primary font-bold">{completedLessons.length}/{COURSE_STEPS.length}</span>
+                  </div>
+                  <Progress value={progressValue} className="h-3 mb-4" />
+                  <p className="text-sm text-muted-foreground">
+                    {progressValue === 100 ? "Course completed! Claim your certificate." : "Keep going to earn your certificate."}
+                  </p>
                 </div>
-                <Progress value={0} className="h-3 mb-4" />
-                <p className="text-sm text-muted-foreground">Complete all steps to earn your certificate.</p>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -171,51 +167,59 @@ const Course = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6">
-            {COURSE_STEPS.map((step) => (
-              <Link 
-                key={step.id} 
-                to={!user ? '/login' : (step.isLocked ? '#' : `/course/lesson/${step.id}`)}
-                className={`group bg-white rounded-[32px] p-8 border shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 ${step.isLocked ? 'opacity-75' : ''}`}
-              >
-                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 transition-colors ${
-                  step.isLocked ? 'bg-muted text-muted-foreground' : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
-                }`}>
-                  {step.isLocked ? <Lock size={32} /> : step.number}
-                </div>
-                
-                <div className="flex-grow text-center md:text-left">
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
-                    <h3 className="text-2xl font-bold">{step.title}</h3>
-                    {step.isLocked && <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-widest">Pro Only</span>}
-                    {!step.isLocked && <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Free Access</span>}
+            {COURSE_STEPS.map((step) => {
+              const isCompleted = completedLessons.includes(step.id);
+              return (
+                <Link 
+                  key={step.id} 
+                  to={!user ? '/login' : (step.isLocked ? '#' : `/course/lesson/${step.id}`)}
+                  className={`group bg-white rounded-[32px] p-8 border shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 ${step.isLocked ? 'opacity-75' : ''} ${isCompleted ? 'border-green-200 bg-green-50/30' : ''}`}
+                >
+                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 transition-colors ${
+                    isCompleted 
+                      ? 'bg-green-500 text-white' 
+                      : step.isLocked 
+                        ? 'bg-muted text-muted-foreground' 
+                        : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
+                  }`}>
+                    {isCompleted ? <CheckCircle2 size={32} /> : step.isLocked ? <Lock size={32} /> : step.number}
                   </div>
-                  <p className="text-muted-foreground mb-4 line-clamp-2">{step.description}</p>
-                  <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <Clock size={14} className="text-primary" /> {step.duration}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <BookOpen size={14} className="text-primary" /> {step.skills.length} Modules
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <Sparkles size={14} className="text-primary" /> AI Lab Included
-                    </span>
+                  
+                  <div className="flex-grow text-center md:text-left">
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
+                      <h3 className="text-2xl font-bold">{step.title}</h3>
+                      {step.isLocked && <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-widest">Pro Only</span>}
+                      {!step.isLocked && !isCompleted && <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Free Access</span>}
+                      {isCompleted && <span className="px-3 py-1 rounded-full bg-green-500 text-white text-[10px] font-bold uppercase tracking-widest">Completed</span>}
+                    </div>
+                    <p className="text-muted-foreground mb-4 line-clamp-2">{step.description}</p>
+                    <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <Clock size={14} className="text-primary" /> {step.duration}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <BookOpen size={14} className="text-primary" /> {step.skills.length} Modules
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <Sparkles size={14} className="text-primary" /> AI Lab Included
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="shrink-0">
-                  {!user ? (
-                    <Button variant="outline" className="rounded-full px-8 h-12">Login to Start</Button>
-                  ) : step.isLocked ? (
-                    <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
-                  ) : (
-                    <Button className="rounded-full px-8 h-12 group-hover:translate-x-2 transition-transform">
-                      Start Lesson <ArrowRight className="ml-2" size={18} />
-                    </Button>
-                  )}
-                </div>
-              </Link>
-            ))}
+                  <div className="shrink-0">
+                    {!user ? (
+                      <Button variant="outline" className="rounded-full px-8 h-12">Login to Start</Button>
+                    ) : step.isLocked ? (
+                      <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
+                    ) : (
+                      <Button className={`rounded-full px-8 h-12 transition-transform ${isCompleted ? 'bg-green-600 hover:bg-green-700' : 'group-hover:translate-x-2'}`}>
+                        {isCompleted ? "Review Lesson" : "Start Lesson"} <ArrowRight className="ml-2" size={18} />
+                      </Button>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           <div className="mt-32 text-center bg-primary rounded-[60px] p-16 md:p-24 text-primary-foreground relative overflow-hidden shadow-2xl">

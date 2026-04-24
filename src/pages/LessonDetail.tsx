@@ -17,13 +17,18 @@ import {
   Lock, 
   Sparkles,
   BookOpen,
-  Layout
+  Layout,
+  Loader2
 } from 'lucide-react';
-import { showSuccess } from '@/utils/toast';
+import { showSuccess, showError } from '@/utils/toast';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/hooks/use-auth';
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [isCompleting, setIsCompleting] = React.useState(false);
   
   const lessonIndex = COURSE_STEPS.findIndex(s => s.id === lessonId);
   const lesson = COURSE_STEPS[lessonIndex];
@@ -35,12 +40,34 @@ const LessonDetail = () => {
   const nextLesson = COURSE_STEPS[lessonIndex + 1];
   const prevLesson = COURSE_STEPS[lessonIndex - 1];
 
-  const handleComplete = () => {
-    showSuccess(`Lesson ${lesson.number} Completed!`);
-    if (nextLesson && !nextLesson.isLocked) {
-      navigate(`/course/lesson/${nextLesson.id}`);
-    } else {
-      navigate('/course');
+  const handleComplete = async () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    setIsCompleting(true);
+    try {
+      const { error } = await supabase
+        .from('user_progress')
+        .upsert({ 
+          user_id: user.id, 
+          lesson_id: lesson.id 
+        }, { onConflict: 'user_id,lesson_id' });
+
+      if (error) throw error;
+
+      showSuccess(`Lesson ${lesson.number} Completed!`);
+      
+      if (nextLesson && !nextLesson.isLocked) {
+        navigate(`/course/lesson/${nextLesson.id}`);
+      } else {
+        navigate('/course');
+      }
+    } catch (error: any) {
+      showError(error.message);
+    } finally {
+      setIsCompleting(false);
     }
   };
 
@@ -64,8 +91,8 @@ const LessonDetail = () => {
                   <Layout size={18} />
                   Course Progress
                 </h4>
-                <Progress value={(lesson.number / 10) * 100} className="h-2 mb-2" />
-                <p className="text-xs text-muted-foreground">Step {lesson.number} of 10</p>
+                <Progress value={(lesson.number / COURSE_STEPS.length) * 100} className="h-2 mb-2" />
+                <p className="text-xs text-muted-foreground">Step {lesson.number} of {COURSE_STEPS.length}</p>
               </div>
 
               <nav className="space-y-2">
@@ -191,9 +218,19 @@ const LessonDetail = () => {
                     size="lg" 
                     className="rounded-full px-12 h-16 text-xl font-bold shadow-xl shadow-primary/20"
                     onClick={handleComplete}
+                    disabled={isCompleting}
                   >
-                    Complete & Continue
-                    <ArrowRight className="ml-2" size={20} />
+                    {isCompleting ? (
+                      <>
+                        <Loader2 className="mr-2 animate-spin" size={20} />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        Complete & Continue
+                        <ArrowRight className="ml-2" size={20} />
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
