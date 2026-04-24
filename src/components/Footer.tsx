@@ -61,20 +61,19 @@ const Footer = () => {
 
           {/* Legal (no heading) */}
           <div>
-            {/* Links visible only on mobile */}
-            <ul className="md:hidden space-y-2">
+            {/* Links visible only on desktop */}
+            <ul className="hidden md:block space-y-2">
               <li><Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom bar with copyright and legal links */}
+        {/* Bottom bar: copyright always visible; legal links desktop-only */}
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© 2026 LP Graphics. All rights reserved.</p>
           <div className="flex gap-8">
-            {/* Links visible only on desktop */}
-            <ul className="hidden md:flex gap-8">
+            <ul className="hidden md:block gap-8">
               <li><Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link></li>
               <li><Link to="/terms-of-service" className="hover:text-primary">Terms of Service</Link></li>
             </ul>
