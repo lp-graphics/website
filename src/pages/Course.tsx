@@ -15,7 +15,8 @@ import {
   Lock, 
   ArrowRight,
   Clock,
-  BookOpen
+  BookOpen,
+  ExternalLink
 } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 
@@ -113,53 +114,51 @@ const Course = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6">
-            {COURSE_STEPS.map((step) => {
-              return (
-                <Link 
-                  key={step.id} 
-                  to={step.isLocked ? '#' : `/course/lesson/${step.id}`}
-                  className={`group bg-white rounded-[32px] p-8 border shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 ${step.isLocked ? 'opacity-75' : ''}`}
-                >
-                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 transition-colors ${
-                    step.isLocked 
-                      ? 'bg-muted text-muted-foreground' 
-                      : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
-                  }`}>
-                    {step.isLocked ? <Lock size={32} /> : step.number}
+            {COURSE_STEPS.map((step) => (
+              <Link 
+                key={step.id} 
+                to={step.isLocked ? '#' : `/course/lesson/${step.id}`}
+                className={`group bg-white rounded-[32px] p-8 border shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row items-center gap-8 ${step.isLocked ? 'opacity-75' : ''}`}
+              >
+                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 transition-colors ${
+                  step.isLocked 
+                    ? 'bg-muted text-muted-foreground' 
+                    : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
+                }`}>
+                  {step.isLocked ? <Lock size={32} /> : step.number}
+                </div>
+                
+                <div className="flex-grow text-center md:text-left">
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
+                    <h3 className="text-2xl font-bold">{step.title}</h3>
+                    {step.isLocked && <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-widest">Pro Only</span>}
+                    {!step.isLocked && <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Free Access</span>}
                   </div>
-                  
-                  <div className="flex-grow text-center md:text-left">
-                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
-                      <h3 className="text-2xl font-bold">{step.title}</h3>
-                      {step.isLocked && <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-widest">Pro Only</span>}
-                      {!step.isLocked && <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Free Access</span>}
-                    </div>
-                    <p className="text-muted-foreground mb-4 line-clamp-2">{step.description}</p>
-                    <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                        <Clock size={14} className="text-primary" /> {step.duration}
-                      </span>
-                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                        <BookOpen size={14} className="text-primary" /> {step.skills.length} Modules
-                      </span>
-                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                        <Sparkles size={14} className="text-primary" /> AI Lab Included
-                      </span>
-                    </div>
+                  <p className="text-muted-foreground mb-4 line-clamp-2">{step.description}</p>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                      <Clock size={14} className="text-primary" /> {step.duration}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                      <BookOpen size={14} className="text-primary" /> {step.skills.length} Modules
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                      <Sparkles size={14} className="text-primary" /> AI Lab Included
+                    </span>
                   </div>
+                </div>
 
-                  <div className="shrink-0">
-                    {step.isLocked ? (
-                      <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
-                    ) : (
-                      <Button className="rounded-full px-8 h-12 transition-transform group-hover:translate-x-2">
-                        Start Lesson <ArrowRight className="ml-2" size={18} />
-                      </Button>
-                    )}
-                  </div>
-                </Link>
-              );
-            })}
+                <div className="shrink-0">
+                  {step.isLocked ? (
+                    <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
+                  ) : (
+                    <Button className="rounded-full px-8 h-12 transition-transform group-hover:translate-x-2">
+                      Start Lesson <ArrowRight className="ml-2" size={18} />
+                    </Button>
+                  )}
+                </div>
+              </Link>
+            ))}
           </div>
 
           <div className="mt-32 text-center bg-primary rounded-[60px] p-16 md:p-24 text-primary-foreground relative overflow-hidden shadow-2xl">
@@ -171,6 +170,12 @@ const Course = () => {
               <Button size="lg" variant="secondary" className="rounded-full px-16 h-20 text-2xl font-bold shadow-2xl hover:scale-105 transition-transform" onClick={handleEnroll}>
                 Unlock Full Access — $10
               </Button>
+              <div className="mt-8 flex items-center justify-center gap-8 text-sm text-primary-foreground/60">
+                <a href="https://behance.net/lp_graphics" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
+                  <ExternalLink size={16} />
+                  View Behance Portfolio
+                </a>
+              </div>
             </div>
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48 blur-3xl" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full -ml-48 -mb-48 blur-3xl" />

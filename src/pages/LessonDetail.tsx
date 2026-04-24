@@ -168,7 +168,7 @@ const LessonDetail = () => {
 
                 {/* Navigation Footer */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-12 border-t">
-                  {prevLesson ? (
+                  {prevLesson && (
                     <Link to={`/course/lesson/${prevLesson.id}`} className="flex items-center gap-4 group">
                       <div className="w-12 h-12 rounded-full border flex items-center justify-center group-hover:bg-muted transition-colors">
                         <ArrowLeft size={20} />
@@ -178,8 +178,7 @@ const LessonDetail = () => {
                         <div className="font-bold">{prevLesson.title}</div>
                       </div>
                     </Link>
-                  ) : <div />}
-
+                  )}
                   <Button 
                     size="lg" 
                     className="rounded-full px-12 h-16 text-xl font-bold shadow-xl shadow-primary/20"
