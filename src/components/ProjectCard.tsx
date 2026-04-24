@@ -20,36 +20,36 @@ const ProjectCard = ({ project }: { project: ProjectProps }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="group relative overflow-hidden rounded-3xl bg-muted cursor-pointer aspect-[4/5]">
+        <div className="group relative overflow-hidden rounded-2xl bg-muted cursor-pointer aspect-[4/5] hover:shadow-lg transition-all duration-300">
           <img 
             src={project.image} 
             alt={project.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-            <Badge className="w-fit mb-3 bg-white/20 backdrop-blur-md border-none text-white">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 md:p-6">
+            <Badge className="w-fit mb-2 md:mb-3 bg-white/20 backdrop-blur-md border-none text-white text-xs md:text-sm">
               {project.category}
             </Badge>
-            <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
-            <p className="text-white/80 text-sm line-clamp-2">
+            <h3 className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2 line-clamp-1">{project.title}</h3>
+            <p className="text-white/80 text-xs md:text-sm line-clamp-2">
               {project.description}
             </p>
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-3xl border-none">
+      <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-2xl border-none">
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="h-[300px] md:h-full">
+          <div className="h-[250px] md:h-full">
             <img 
               src={project.image} 
               alt={project.title}
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="p-8 md:p-12 flex flex-col">
+          <div className="p-6 md:p-8 flex flex-col">
             <DialogHeader className="mb-6">
-              <Badge className="w-fit mb-4">{project.category}</Badge>
-              <DialogTitle className="text-3xl font-bold">{project.title}</DialogTitle>
+              <Badge className="w-fit mb-3">{project.category}</Badge>
+              <DialogTitle className="text-2xl md:text-3xl font-bold">{project.title}</DialogTitle>
             </DialogHeader>
             
             <div className="space-y-6 flex-grow">

@@ -21,7 +21,7 @@ import ezeImg from '@/assets/portfolio/eze.jpg';
 import cadeauImg from '@/assets/portfolio/elliot-cadeau.jpg';
 import acuffImg from '@/assets/portfolio/darius-acuff.jpg';
 
-const PROJECTS = [
+const ALL_PROJECTS = [
   {
     id: 1,
     title: "Michael Olise | Bayern",
@@ -108,6 +108,7 @@ const PROJECTS = [
 const Index = () => {
   const navigate = useNavigate();
   const portfolioRef = React.useRef<HTMLDivElement>(null);
+  const [visibleProjects, setVisibleProjects] = React.useState(6);
 
   const scrollToPortfolio = () => {
     portfolioRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -116,6 +117,14 @@ const Index = () => {
   const handleServices = () => {
     navigate('/services');
   };
+
+  const loadMoreProjects = () => {
+    const newVisibleCount = visibleProjects + 3;
+    setVisibleProjects(newVisibleCount);
+    showSuccess(`Loading ${Math.min(3, ALL_PROJECTS.length - visibleProjects)} more projects...`);
+  };
+
+  const displayedProjects = ALL_PROJECTS.slice(0, visibleProjects);
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,11 +137,11 @@ const Index = () => {
             <Sparkles size={16} />
             LP Graphics Studio
           </div>
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-8 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
             WE CRAFT <br />
             <span className="text-primary">VISUAL STORIES.</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
             A boutique studio specializing in high-end sports graphics, digital experiences, and visual content that leaves a lasting impression.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
@@ -148,7 +157,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div>
-              <h2 className="text-4xl font-bold mb-4">Selected Works</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Selected Works</h2>
               <p className="text-muted-foreground text-lg">A curated collection of our most impactful sports graphics.</p>
             </div>
             <div className="flex gap-4">
@@ -158,18 +167,25 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PROJECTS.map((project) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {displayedProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
 
-          <div className="mt-20 text-center">
-            <Button variant="outline" size="lg" className="rounded-full px-12 h-14" onClick={() => showSuccess("Loading more projects...")}>
-              Load More Projects
-              <ArrowDown className="ml-2" size={18} />
-            </Button>
-          </div>
+          {visibleProjects < ALL_PROJECTS.length && (
+            <div className="mt-20 text-center">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="rounded-full px-12 h-14"
+                onClick={loadMoreProjects}
+              >
+                Load More Projects
+                <ArrowDown className="ml-2" size={18} />
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
