@@ -60,8 +60,8 @@ const Footer = () => {
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© 2026 LP Graphics. All rights reserved.</p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-primary">Privacy Policy</a>
-            <a href="#" className="hover:text-primary">Terms of Service</a>
+            <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="hover:text-primary">Terms of Service</Link>
           </div>
         </div>
       </div>
