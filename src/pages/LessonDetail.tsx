@@ -37,6 +37,13 @@ const LessonDetail = () => {
     showSuccess(`Lesson ${lesson.number} Completed!`);
   };
 
+  const handleUnlock = () => {
+    showSuccess("Redirecting to Behance to unlock Pro content...");
+    setTimeout(() => {
+      window.open("https://be.net/lp_graphics", "_blank");
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <SEO title={lesson.title} />
@@ -67,11 +74,17 @@ const LessonDetail = () => {
                   <Link
                     key={step.id}
                     to={step.isLocked ? '#' : `/course/lesson/${step.id}`}
+                    onClick={(e) => {
+                      if (step.isLocked) {
+                        e.preventDefault();
+                        handleUnlock();
+                      }
+                    }}
                     className={`flex items-center gap-3 p-4 rounded-2xl transition-all ${
                       step.id === lessonId 
                         ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
                         : step.isLocked 
-                          ? 'opacity-50 cursor-not-allowed' 
+                          ? 'opacity-50 cursor-pointer hover:bg-muted' 
                           : 'hover:bg-muted'
                     }`}
                   >
@@ -98,7 +111,7 @@ const LessonDetail = () => {
                 <p className="text-xl text-muted-foreground mb-12 max-w-lg mx-auto leading-relaxed">
                   This advanced lesson covers industry-standard techniques used by top studios. Upgrade to Pro to access the full 10-step roadmap and AI Practice Lab.
                 </p>
-                <Button size="lg" className="rounded-full px-12 h-16 text-xl bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/30">
+                <Button size="lg" className="rounded-full px-12 h-16 text-xl bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/30" onClick={handleUnlock}>
                   Unlock Full Course for $10
                 </Button>
               </div>
