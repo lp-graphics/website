@@ -25,25 +25,43 @@ import { showSuccess } from '@/utils/toast';
 const Course = () => {
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   const [session, setSession] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchProgress = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('user_progress')
+      .select('lesson_id')
+      .eq('user_id', userId);
+
+    if (!error && data) {
+      setCompletedLessons(data.map(item => item.lesson_id));
+    }
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    const fetchProgress = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    // Initial session check
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-
-      if (session) {
-        const { data, error } = await supabase
-          .from('user_progress')
-          .select('lesson_id')
-          .eq('user_id', session.user.id);
-
-        if (!error && data) {
-          setCompletedLessons(data.map(item => item.lesson_id));
-        }
+      if (session?.user) {
+        fetchProgress(session.user.id);
+      } else {
+        setIsLoading(false);
       }
-    };
+    });
 
-    fetchProgress();
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session?.user) {
+        fetchProgress(session.user.id);
+      } else {
+        setCompletedLessons([]);
+        setIsLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const handleEnroll = () => {
