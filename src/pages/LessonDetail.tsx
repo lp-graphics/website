@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
@@ -16,16 +16,27 @@ import {
   CheckCircle2, 
   Lock, 
   Sparkles,
-  Layout
+  Layout,
+  Loader2
 } from 'lucide-react';
-import { showSuccess } from '@/utils/toast';
+import { supabase } from '@/lib/supabase';
+import { showError, showSuccess } from '@/utils/toast';
 
 const LessonDetail = () => {
   const { lessonId } = useParams();
+  const navigate = useNavigate();
+  const [session, setSession] = useState<any>(null);
+  const [isCompleting, setIsCompleting] = useState(false);
   
   const lessonIndex = COURSE_STEPS.findIndex(s => s.id === lessonId);
   const lesson = COURSE_STEPS[lessonIndex];
   
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+  }, []);
+
   if (!lesson) {
     return <div>Lesson not found</div>;
   }
@@ -33,8 +44,36 @@ const LessonDetail = () => {
   const nextLesson = COURSE_STEPS[lessonIndex + 1];
   const prevLesson = COURSE_STEPS[lessonIndex - 1];
 
-  const handleComplete = () => {
-    showSuccess(`Lesson ${lesson.number} Completed!`);
+  const handleComplete = async () => {
+    if (!session) {
+      showError("Please login to save your progress!");
+      navigate('/login');
+      return;
+    }
+
+    setIsCompleting(true);
+    try {
+      const { error } = await supabase
+        .from('user_progress')
+        .upsert({ 
+          user_id: session.user.id, 
+          lesson_id: lesson.id 
+        }, { onConflict: 'user_id,lesson_id' });
+
+      if (error) throw error;
+
+      showSuccess(`Lesson ${lesson.number} Completed!`);
+      
+      if (nextLesson && !nextLesson.isLocked) {
+        navigate(`/course/lesson/${nextLesson.id}`);
+      } else {
+        navigate('/course');
+      }
+    } catch (error: any) {
+      showError(error.message);
+    } finally {
+      setIsCompleting(false);
+    }
   };
 
   return (
@@ -183,9 +222,19 @@ const LessonDetail = () => {
                     size="lg" 
                     className="rounded-full px-12 h-16 text-xl font-bold shadow-xl shadow-primary/20"
                     onClick={handleComplete}
+                    disabled={isCompleting}
                   >
-                    Complete & Continue
-                    <ArrowRight className="ml-2" size={20} />
+                    {isCompleting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        Complete & Continue
+                        <ArrowRight className="ml-2" size={20} />
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

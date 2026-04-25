@@ -1,4 +1,4 @@
--- Create profiles table
+-- Create profiles table if not exists
 CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   first_name TEXT,
@@ -8,10 +8,20 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   PRIMARY KEY (id)
 );
 
+-- Create user_progress table
+CREATE TABLE IF NOT EXISTS public.user_progress (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  lesson_id TEXT NOT NULL,
+  completed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(user_id, lesson_id)
+);
+
 -- Enable RLS
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_progress ENABLE ROW LEVEL SECURITY;
 
--- Create policies
+-- Create policies for profiles
 DO $$ 
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'profiles_select_policy') THEN
@@ -23,12 +33,20 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'profiles_update_policy') THEN
         CREATE POLICY "profiles_update_policy" ON public.profiles FOR UPDATE TO authenticated USING (auth.uid() = id);
     END IF;
-    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'profiles_delete_policy') THEN
-        CREATE POLICY "profiles_delete_policy" ON public.profiles FOR DELETE TO authenticated USING (auth.uid() = id);
+END $$;
+
+-- Create policies for user_progress
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Users can view their own progress') THEN
+        CREATE POLICY "Users can view their own progress" ON public.user_progress FOR SELECT TO authenticated USING (auth.uid() = user_id);
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Users can insert their own progress') THEN
+        CREATE POLICY "Users can insert their own progress" ON public.user_progress FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
     END IF;
 END $$;
 
--- Updated trigger for new users to handle OAuth metadata
+-- Trigger for new users
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL

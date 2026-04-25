@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -16,11 +16,36 @@ import {
   ArrowRight,
   Clock,
   BookOpen,
-  ExternalLink
+  ExternalLink,
+  CheckCircle2
 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 import { showSuccess } from '@/utils/toast';
 
 const Course = () => {
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session);
+
+      if (session) {
+        const { data, error } = await supabase
+          .from('user_progress')
+          .select('lesson_id')
+          .eq('user_id', session.user.id);
+
+        if (!error && data) {
+          setCompletedLessons(data.map(item => item.lesson_id));
+        }
+      }
+    };
+
+    fetchProgress();
+  }, []);
+
   const handleEnroll = () => {
     showSuccess("Redirecting to secure checkout...");
   };
@@ -114,52 +139,59 @@ const Course = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6">
-            {COURSE_STEPS.map((step, i) => (
-              <Link 
-                key={step.id} 
-                to={step.isLocked ? '#' : `/course/lesson/${step.id}`}
-                className={`group bg-white rounded-[32px] p-8 border shadow-sm hover:shadow-xl transition-all duration-1000 flex flex-col md:flex-row items-center gap-8 animate-in fade-in slide-in-from-bottom-4 ${step.isLocked ? 'opacity-75' : ''}`}
-                style={{ animationDelay: `${300 + (i * 150)}ms` }}
-              >
-                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 transition-colors ${
-                  step.isLocked 
-                    ? 'bg-muted text-muted-foreground' 
-                    : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
-                }`}>
-                  {step.isLocked ? <Lock size={32} /> : step.number}
-                </div>
-                
-                <div className="flex-grow text-center md:text-left">
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
-                    <h3 className="text-2xl font-bold">{step.title}</h3>
-                    {step.isLocked && <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-widest">Pro Only</span>}
-                    {!step.isLocked && <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Free Access</span>}
+            {COURSE_STEPS.map((step, i) => {
+              const isCompleted = completedLessons.includes(step.id);
+              
+              return (
+                <Link 
+                  key={step.id} 
+                  to={step.isLocked ? '#' : `/course/lesson/${step.id}`}
+                  className={`group bg-white rounded-[32px] p-8 border shadow-sm hover:shadow-xl transition-all duration-1000 flex flex-col md:flex-row items-center gap-8 animate-in fade-in slide-in-from-bottom-4 ${step.isLocked ? 'opacity-75' : ''}`}
+                  style={{ animationDelay: `${300 + (i * 150)}ms` }}
+                >
+                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 transition-colors ${
+                    step.isLocked 
+                      ? 'bg-muted text-muted-foreground' 
+                      : isCompleted
+                        ? 'bg-green-500 text-white'
+                        : 'bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white'
+                  }`}>
+                    {step.isLocked ? <Lock size={32} /> : isCompleted ? <CheckCircle2 size={32} /> : step.number}
                   </div>
-                  <p className="text-muted-foreground mb-4 line-clamp-2">{step.description}</p>
-                  <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <Clock size={14} className="text-primary" /> {step.duration}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <BookOpen size={14} className="text-primary" /> {step.skills.length} Modules
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <Sparkles size={14} className="text-primary" /> AI Lab Included
-                    </span>
+                  
+                  <div className="flex-grow text-center md:text-left">
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
+                      <h3 className="text-2xl font-bold">{step.title}</h3>
+                      {step.isLocked && <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-widest">Pro Only</span>}
+                      {!step.isLocked && <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-widest">Free Access</span>}
+                      {isCompleted && <span className="px-3 py-1 rounded-full bg-green-500 text-white text-[10px] font-bold uppercase tracking-widest">Completed</span>}
+                    </div>
+                    <p className="text-muted-foreground mb-4 line-clamp-2">{step.description}</p>
+                    <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <Clock size={14} className="text-primary" /> {step.duration}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <BookOpen size={14} className="text-primary" /> {step.skills.length} Modules
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <Sparkles size={14} className="text-primary" /> AI Lab Included
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="shrink-0">
-                  {step.isLocked ? (
-                    <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
-                  ) : (
-                    <Button className="rounded-full px-8 h-12 transition-transform group-hover:translate-x-2">
-                      Start Lesson <ArrowRight className="ml-2" size={18} />
-                    </Button>
-                  )}
-                </div>
-              </Link>
-            ))}
+                  <div className="shrink-0">
+                    {step.isLocked ? (
+                      <Button variant="outline" className="rounded-full px-8 h-12 border-dashed">Unlock Step</Button>
+                    ) : (
+                      <Button className={`rounded-full px-8 h-12 transition-transform group-hover:translate-x-2 ${isCompleted ? 'bg-green-500 hover:bg-green-600' : ''}`}>
+                        {isCompleted ? 'Review Lesson' : 'Start Lesson'} <ArrowRight className="ml-2" size={18} />
+                      </Button>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           <div className="mt-32 text-center bg-primary rounded-[60px] p-16 md:p-24 text-primary-foreground relative overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-1000 delay-500">
