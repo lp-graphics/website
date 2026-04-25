@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Palette, Star, BookOpen, Briefcase, LogOut, User } from 'lucide-react';
+import { Palette, Star, BookOpen, Briefcase, LogOut, User, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import { showSuccess } from '@/utils/toast';
@@ -67,10 +67,17 @@ const Navbar = () => {
             
             <div className="flex items-center gap-3 border-l pl-10 ml-2">
               {session ? (
-                <Button variant="ghost" className="rounded-full font-bold flex items-center gap-2" onClick={handleLogout}>
-                  <LogOut size={18} />
-                  Logout
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="icon" className="rounded-full" asChild>
+                    <Link to="/settings">
+                      <Settings size={18} />
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" className="rounded-full font-bold flex items-center gap-2" onClick={handleLogout}>
+                    <LogOut size={18} />
+                    Logout
+                  </Button>
+                </div>
               ) : (
                 <Button variant="ghost" className="rounded-full font-bold flex items-center gap-2" asChild>
                   <Link to="/login">
@@ -96,6 +103,13 @@ const Navbar = () => {
           <span>LP GRAPHICS</span>
         </Link>
         <div className="flex items-center gap-2">
+          {session && (
+            <Button variant="ghost" size="sm" className="rounded-full" asChild>
+              <Link to="/settings">
+                <Settings size={18} />
+              </Link>
+            </Button>
+          )}
           {session ? (
             <Button variant="ghost" size="sm" className="rounded-full" onClick={handleLogout}>
               <LogOut size={18} />
