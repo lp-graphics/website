@@ -1,13 +1,35 @@
 "use client";
 
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Palette, Star, BookOpen, Briefcase } from 'lucide-react';
+import { Palette, Star, BookOpen, Briefcase, LogOut, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/lib/supabase';
+import { showSuccess } from '@/utils/toast';
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    showSuccess("Logged out successfully");
+    navigate('/');
+  };
 
   const navItems = [
     { name: 'Portfolio', path: '/', icon: Palette },
@@ -18,7 +40,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* --- DESKTOP NAVIGATION (Top Only) --- */}
+      {/* --- DESKTOP NAVIGATION --- */}
       <nav className="hidden md:flex md:sticky md:top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 font-bold text-2xl tracking-tighter text-primary">
@@ -44,6 +66,19 @@ const Navbar = () => {
             ))}
             
             <div className="flex items-center gap-3 border-l pl-10 ml-2">
+              {session ? (
+                <Button variant="ghost" className="rounded-full font-bold flex items-center gap-2" onClick={handleLogout}>
+                  <LogOut size={18} />
+                  Logout
+                </Button>
+              ) : (
+                <Button variant="ghost" className="rounded-full font-bold flex items-center gap-2" asChild>
+                  <Link to="/login">
+                    <User size={18} />
+                    Login
+                  </Link>
+                </Button>
+              )}
               <Button className="rounded-full px-8 h-12 font-bold shadow-lg shadow-primary/10" onClick={() => window.open("https://be.net/lp_graphics", "_blank")}>
                 Hire Us
               </Button>
@@ -52,9 +87,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* --- MOBILE NAVIGATION (Instagram Style) --- */}
-      
-      {/* Mobile Top Header (Logo Only) */}
+      {/* --- MOBILE NAVIGATION --- */}
       <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-md border-b z-50 flex items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter text-primary">
           <div className="w-10 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground text-xs">
@@ -62,17 +95,29 @@ const Navbar = () => {
           </div>
           <span>LP GRAPHICS</span>
         </Link>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="rounded-full font-bold text-xs"
-          onClick={() => window.open("https://be.net/lp_graphics", "_blank")}
-        >
-          Hire
-        </Button>
+        <div className="flex items-center gap-2">
+          {session ? (
+            <Button variant="ghost" size="sm" className="rounded-full" onClick={handleLogout}>
+              <LogOut size={18} />
+            </Button>
+          ) : (
+            <Button variant="ghost" size="sm" className="rounded-full" asChild>
+              <Link to="/login">
+                <User size={18} />
+              </Link>
+            </Button>
+          )}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="rounded-full font-bold text-xs"
+            onClick={() => window.open("https://be.net/lp_graphics", "_blank")}
+          >
+            Hire
+          </Button>
+        </div>
       </header>
 
-      {/* Mobile Bottom Navigation Bar */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-background/90 backdrop-blur-xl border-t z-50 flex items-center justify-around px-2 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         {navItems.map((item) => (
           <Link
@@ -89,9 +134,8 @@ const Navbar = () => {
         ))}
       </nav>
 
-      {/* Spacers for Mobile Layout */}
-      <div className="h-16 md:hidden" /> {/* Top spacer for fixed header */}
-      <div className="h-16 md:hidden" /> {/* Bottom spacer for fixed nav */}
+      <div className="h-16 md:hidden" />
+      <div className="h-16 md:hidden" />
     </>
   );
 };
